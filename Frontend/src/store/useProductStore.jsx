@@ -3,10 +3,7 @@
 import { create } from "zustand";
 import axios from "axios"
 import { toast} from "react-hot-toast"
-// base url will be dynamic depending on the environment
-// base url will be dynamic depending on the environment
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:3000" : "";
-
+const BASE_URL = import.meta.env.VITE_API_URL;
 export const useProductStore = create((set, get) => ({
   // product state
   products: [],
@@ -51,7 +48,7 @@ export const useProductStore = create((set, get) => ({
             const response=await axios.get(`${BASE_URL}/api/products`)
             set({products:response.data.data,error:false})
         } catch (err) {
-            if(err.status === 429){
+            if(err.response?.status === 429){
             set({error:"Too many requests. Please try again later."})
             toast.success("Too many requests. Please try again later.")
 

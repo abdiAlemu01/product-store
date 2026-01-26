@@ -12,7 +12,9 @@ const app = express();
 app.set("trust proxy", true);
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", "https://product-store.vercel.app"]
+}));
 app.use(
   helmet({
     contentSecurityPolicy: false,
