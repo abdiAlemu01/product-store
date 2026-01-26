@@ -1,4 +1,3 @@
-
 // server.js
 import dotenv from "dotenv";
 import express from "express";
@@ -10,21 +9,20 @@ import { sql } from "./config/db.js";
 import { aj } from "./lib/arcjet.js";
  dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 app.use(
   helmet({
     contentSecurityPolicy: false,
   })
-); // helmet is a security middleware that helps you protect your app by setting various HTTP headers
-app.use(morgan("dev")); // log the requests
+); 
+app.use(morgan("dev")); 
 
-// apply arcjet rate-limit to all routes
 app.use(async (req, res, next) => {
   try {
     const decision = await aj.protect(req, {
-      requested: 1, // specifies that each request consumes 1 token
+      requested: 1, 
     });
 
     if (decision.isDenied()) {
@@ -37,8 +35,6 @@ app.use(async (req, res, next) => {
       }
       return;
     }
-
-    // check for spoofed bots
     if (decision.results.some((result) => result.reason.isBot() && result.reason.isSpoofed())) {
       res.status(403).json({ error: "Spoofed bot detected" });
       return;
@@ -50,7 +46,6 @@ app.use(async (req, res, next) => {
     next(error);
   }
 });
-
 app.use("/api/products", productRoutes);
 async function initDB() {
   try {
@@ -63,7 +58,7 @@ async function initDB() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
-
+    
     console.log("Database initialized successfully");
   } catch (error) {
     console.log("Error initDB", error);
