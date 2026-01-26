@@ -12,9 +12,20 @@ const app = express();
 app.set("trust proxy", true);
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
+
+
+const allowedOrigins = [
+  "http://localhost:5173", 
+  "https://product-store-pied.vercel.app" 
+];
+
 app.use(cors({
-  origin: ["http://localhost:5173", "https://product-store.vercel.app"]
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
+
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
