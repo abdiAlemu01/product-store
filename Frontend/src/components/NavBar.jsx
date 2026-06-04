@@ -19,36 +19,42 @@ function NavBar() {
   ];
 
   return (
-    <div className='bg-base-100/80 backdrop-blur-lg border-b border-base-content/10 sticky top-0 z-50'>
+    <div className='bg-base-100/95 backdrop-blur-md border-b border-base-content/10 sticky top-0 z-50 shadow-sm'>
         <div className='max-w-7xl mx-auto'>
-            <div className='navbar px-4 min-h-[4rem]'>
+            <div className='navbar px-4 py-3 min-h-[5rem]'>
 
               {/* LOGO */}
               <div className="flex-none">
                 <Link to="/" className="hover:opacity-80 transition-opacity">
                   <div className="flex items-center gap-3">
-                    {/* Your Logo Image */}
                     <img 
                       src="/aa.jpg" 
                       alt="Company Logo" 
-                      className="size-12 rounded-full object-cover shadow-md" 
+                      className="size-14 rounded-full object-cover shadow-md ring-2 ring-primary/20" 
                     />
-                    <span className="font-semibold font-mono tracking-wide text-sm md:text-base lg:text-lg dark:text-purple-400 bg-clip-text text-transparent bg-gradient-to-r from-green-200 to-green-300 whitespace-pre-line leading-tight">
-                      {"MANA GURGURTAA\nMEESHALE MANA CHARE"}
-                    </span>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-lg md:text-xl leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+                        MANA GURGURTAA
+                      </span>
+                      <span className="text-xs md:text-sm text-base-content/70 font-medium">
+                        MEESHALE MANA CHARE
+                      </span>
+                    </div>
                   </div>
                 </Link>
               </div>
 
               {/* NAVIGATION LINKS - Desktop */}
               <div className="flex-1 hidden lg:flex justify-center">
-                <ul className="menu menu-horizontal px-1 gap-1">
+                <ul className="menu menu-horizontal px-1 gap-2">
                   {navLinks.map((link) => (
                     <li key={link.path}>
                       <Link 
                         to={link.path}
-                        className={`font-medium transition-colors hover:text-primary ${
-                          pathname === link.path ? 'text-primary' : ''
+                        className={`text-base font-semibold px-4 py-2 rounded-lg transition-all duration-200 ${
+                          pathname === link.path 
+                            ? 'bg-primary text-primary-content shadow-md' 
+                            : 'hover:bg-primary/10 hover:text-primary'
                         }`}
                       >
                         {link.name}
@@ -61,16 +67,16 @@ function NavBar() {
               {/* MOBILE MENU BUTTON */}
               <div className="flex-1 lg:hidden flex justify-end">
                 <div className="dropdown dropdown-end">
-                  <label tabIndex={0} className="btn btn-ghost">
+                  <label tabIndex={0} className="btn btn-ghost btn-square">
                     <MenuIcon className="size-6" />
                   </label>
-                  <ul tabIndex={0} className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-52 mt-4 border border-base-300">
+                  <ul tabIndex={0} className="dropdown-content menu p-3 shadow-xl bg-base-100 rounded-box w-64 mt-4 border border-base-300">
                     {navLinks.map((link) => (
                       <li key={link.path}>
                         <Link 
                           to={link.path}
-                          className={`font-medium ${
-                            pathname === link.path ? 'text-primary' : ''
+                          className={`text-base font-semibold py-3 rounded-lg ${
+                            pathname === link.path ? 'bg-primary text-primary-content' : ''
                           }`}
                         >
                           {link.name}
@@ -82,17 +88,17 @@ function NavBar() {
               </div>
 
               {/* RIGHT SECTION */}
-              <div className="flex-none flex items-center gap-2 md:gap-4">
+              <div className="flex-none flex items-center gap-3">
                 <ThemeSelector />
                 {isHomePage && (
-                  <div className="indicator">
-                    <div className="p-2 rounded-full hover:bg-base-200 transition-colors">
-                      <ShoppingBagIcon className="size-5" />
-                      <span className="badge badge-sm badge-primary indicator-item">
+                  <Link to="/" className="indicator">
+                    <div className="btn btn-ghost btn-circle hover:bg-primary/10">
+                      <ShoppingBagIcon className="size-6" />
+                      <span className="badge badge-sm badge-primary indicator-item font-bold">
                         {products?.length} 
                       </span>
                     </div>
-                  </div>
+                  </Link>
                 )}
               </div>
 

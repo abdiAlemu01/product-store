@@ -1,9 +1,12 @@
-import { EditIcon, Trash2Icon } from "lucide-react";
+import { EditIcon, Trash2Icon, ShoppingCartIcon, EyeIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
+import { useState } from "react";
 
 function ProductCard({ product }) {
   const { deleteProduct } = useProductStore();
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   // Construct full image URL
   const getImageUrl = () => {
@@ -19,41 +22,108 @@ function ProductCard({ product }) {
     return `${baseUrl}${product.image}`;
   };
   
+  const handleImageError = (e) => {
+    console.error('Image failed to load:', getImageUrl());
+    setImageError(true);
+    // Placeholder image with gradient
+    e.target.style.display = 'none';
+  };
+  
   return (
-    <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+    <div className="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-base-300/50 overflow-hidden group">
       {/* PRODUCT IMAGE */}
-      <figure className="relative pt-[56.25%]">
-        <img
-          src={getImageUrl()}
-          alt={product.name}
-          className="absolute top-0 left-0 w-full h-full object-cover"
-          onError={(e) => {
-            console.error('Image failed to load:', getImageUrl());
-            e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
-          }}
-        />
+      <figure className="relative overflow-hidden bg-base-200">
+        <div className="aspect-square w-full relative">
+          {/* Loading Skeleton */}
+          {!imageLoaded && !imageError && (
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-base-300 via-base-200 to-base-300" />
+          )}
+          
+          {/* Image Error Placeholder */}
+          {imageError && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+              <ShoppingCartIcon className="size-20 text-base-content/30 mb-2" />
+              <p className="text-sm text-base-content/50 font-medium">Product Image</p>
+            </div>
+          )}
+          
+          {/* Actual Image */}
+          {!imageError && (
+            <img
+              src={getImageUrl()}
+              alt={product.name}
+              className={`absolute top-0 left-0 w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500 ${
+                imageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+              onLoad={() => setImageLoaded(true)}
+              onError={handleImageError}
+              loading="lazy"
+            />
+          )}
+          
+          {/* Hover Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="absolute bottom-4 left-4 right-4 flex gap-2">
+              <Link 
+                to={`/product/${product.id}`} 
+                className="btn btn-sm btn-primary flex-1 gap-2 shadow-xl"
+              >
+                <EyeIcon className="size-4" />
+                View Details
+              </Link>
+            </div>
+          </div>
+          
+          {/* Price Badge */}
+          <div className="absolute top-3 right-3 z-10">
+            <div className="badge badge-lg badge-primary font-bold shadow-xl px-4 py-3">
+              ${Number(product.price).toFixed(2)}
+            </div>
+          </div>
+        </div>
       </figure>
 
-      <div className="card-body">
+      <div className="card-body p-4">
         {/* PRODUCT INFO */}
-        <h2 className="card-title text-lg font-semibold">{product.name}</h2>
-        <p className="text-2xl font-bold text-primary">${Number(product.price).toFixed(2)}</p>
+        <h2 className="card-title text-base font-bold line-clamp-2 min-h-[3rem]">
+          {product.name}
+        </h2>
+        
+        {/* Price - Mobile/Tablet */}
+        <div className="flex items-center justify-between mt-2 lg:hidden">
+          <p className="text-2xl font-bold text-primary">
+            ${Number(product.price).toFixed(2)}
+          </p>
+        </div>
 
-        {/* CARD ACTIONS */}
-        <div className="card-actions justify-end mt-4">
-          <Link to={`/product/${product.id}`} className="btn btn-sm btn-info btn-outline">
+        {/* CARD ACTIONS - Admin Only */}
+        <div className="divider my-2"></div>
+        <div className="flex gap-2">
+          <Link 
+            to={`/product/${product.id}`} 
+            className="btn btn-sm btn-info btn-outline flex-1 gap-1"
+            title="Edit Product"
+          >
             <EditIcon className="size-4" />
+            <span className="hidden sm:inline">Edit</span>
           </Link>
 
           <button
-            className="btn btn-sm btn-error  btn-outline"
-            onClick={() => deleteProduct(product.id)}
+            className="btn btn-sm btn-error btn-outline gap-1"
+            onClick={() => {
+              if (window.confirm(`Are you sure you want to delete "${product.name}"?`)) {
+                deleteProduct(product.id);
+              }
+            }}
+            title="Delete Product"
           >
             <Trash2Icon className="size-4" />
+            <span className="hidden sm:inline">Delete</span>
           </button>
         </div>
       </div>
     </div>
   );
 }
+
 export default ProductCard;
