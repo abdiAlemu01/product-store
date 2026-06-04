@@ -44,27 +44,44 @@ function ProductPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl h-screen ">
-      <button onClick={() => navigate("/")} className="btn btn-ghost mb-8">
-        <ArrowLeftIcon className="size-4 mr-2" />
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <button onClick={() => navigate("/")} className="btn btn-ghost mb-8 gap-2">
+        <ArrowLeftIcon className="size-5" />
         Back to Products
       </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* PRODUCT IMAGE */}
-        <div className="rounded-lg overflow-hidden shadow-lg bg-base-100">
-          <img
-            src={
-              currentProduct?.image?.startsWith('http') 
-                ? currentProduct.image 
-                : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${currentProduct?.image}`
-            }
-            alt={currentProduct?.name}
-            className="size-full object-cover"
-            onError={(e) => {
-              e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
-            }}
-          />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* PRODUCT IMAGE - Full Display */}
+        <div className="bg-base-100 rounded-2xl overflow-hidden shadow-2xl border-2 border-base-300/50">
+          <div className="aspect-square w-full relative bg-base-200">
+            <img
+              src={
+                currentProduct?.image?.startsWith('http') 
+                  ? currentProduct.image 
+                  : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${currentProduct?.image}`
+              }
+              alt={currentProduct?.name}
+              className="absolute inset-0 w-full h-full object-contain p-4"
+              onError={(e) => {
+                e.target.src = 'https://via.placeholder.com/800x800?text=Image+Not+Found';
+              }}
+            />
+            {/* Image Border Frame */}
+            <div className="absolute inset-4 border-2 border-primary/20 rounded-lg pointer-events-none"></div>
+          </div>
+          
+          {/* Product Details Under Image */}
+          <div className="p-6 bg-gradient-to-br from-primary/5 to-secondary/5">
+            <h1 className="text-3xl font-bold mb-3">{currentProduct?.name}</h1>
+            <div className="flex items-center gap-4">
+              <div className="badge badge-primary badge-lg px-6 py-4 text-xl font-bold">
+                ${Number(currentProduct?.price).toFixed(2)}
+              </div>
+              <span className="text-sm text-base-content/60">
+                Product ID: {currentProduct?.id}
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* PRODUCT FORM */}
@@ -114,7 +131,7 @@ function ProductPage() {
                 <label className="label">
                   <span className="label-text text-base font-medium">Product Image</span>
                 </label>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <input
                     type="file"
                     accept="image/*"
@@ -122,31 +139,50 @@ function ProductPage() {
                     onChange={(e) => {
                       const file = e.target.files[0];
                       if (file) {
+                        // Validate file size (5MB max)
+                        if (file.size > 5 * 1024 * 1024) {
+                          alert('Image size should be less than 5MB');
+                          e.target.value = '';
+                          return;
+                        }
                         setFormData({ ...formData, image: file });
                       }
                     }}
                   />
                   {/* Current/Preview Image */}
                   {formData.image && (
-                    <div className="relative w-full h-32 rounded-lg overflow-hidden border border-base-300">
-                      <img
-                        src={
-                          typeof formData.image === 'string' 
-                            ? (formData.image.startsWith('http') 
-                                ? formData.image 
-                                : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${formData.image}`)
-                            : URL.createObjectURL(formData.image)
-                        }
-                        alt="Preview"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
-                        }}
-                      />
+                    <div className="relative w-full rounded-lg overflow-hidden border-2 border-primary/30 bg-base-200 shadow-lg">
+                      <div className="aspect-square w-full relative">
+                        <img
+                          src={
+                            typeof formData.image === 'string' 
+                              ? (formData.image.startsWith('http') 
+                                  ? formData.image 
+                                  : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${formData.image}`)
+                              : URL.createObjectURL(formData.image)
+                          }
+                          alt="Preview"
+                          className="absolute inset-0 w-full h-full object-contain p-2"
+                          onError={(e) => {
+                            e.target.src = 'https://via.placeholder.com/400x400?text=Image+Preview';
+                          }}
+                        />
+                      </div>
+                      <div className="absolute top-2 right-2 z-10">
+                        <div className="badge badge-success gap-1 shadow-lg">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          {typeof formData.image === 'string' ? 'Current Image' : 'New Image'}
+                        </div>
+                      </div>
                     </div>
                   )}
-                  <p className="text-sm text-base-content/60">
-                    Leave empty to keep current image
+                  <p className="text-xs text-base-content/60 flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Leave empty to keep current image. Max 5MB.
                   </p>
                 </div>
               </div>

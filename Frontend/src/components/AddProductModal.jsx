@@ -123,19 +123,19 @@ function AddProductModal() {
                 {/* Image Preview */}
                 {formData.image && (
                   <div className="relative animate-fadeIn">
-                    <div className="aspect-[4/3] w-full rounded-lg overflow-hidden border-2 border-primary/30 shadow-lg bg-base-200">
+                    <div className="aspect-square w-full rounded-lg overflow-hidden border-2 border-primary/30 shadow-xl bg-base-200">
                       <img
                         src={typeof formData.image === 'string' ? formData.image : URL.createObjectURL(formData.image)}
                         alt="Preview"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain p-4"
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/400x300?text=Image+Preview';
+                          e.target.src = 'https://via.placeholder.com/600x600?text=Image+Preview';
                         }}
                       />
                     </div>
-                    <div className="absolute top-2 right-2">
-                      <div className="badge badge-success gap-1 shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="absolute top-2 right-2 z-10">
+                      <div className="badge badge-success gap-1 shadow-lg px-3 py-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                         Image Ready
@@ -144,7 +144,7 @@ function AddProductModal() {
                     {/* Remove Image Button */}
                     <button
                       type="button"
-                      className="absolute top-2 left-2 btn btn-sm btn-error btn-circle"
+                      className="absolute top-2 left-2 btn btn-sm btn-error btn-circle z-10 shadow-lg"
                       onClick={() => {
                         setFormData({ ...formData, image: '' });
                         if (fileInputRef.current) {
