@@ -4,10 +4,16 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import productRoutes from "./routes/productRoutes.js";
 import { sql } from "./config/db.js";
 import { aj } from "./lib/arcjet.js";
- dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config();
 const app = express();
 app.set("trust proxy", true);
 const PORT = process.env.PORT || 3000;
@@ -29,11 +35,20 @@ app.use(cors({
 app.use(
   helmet({
     contentSecurityPolicy: false,
+    crossOriginResourcePolicy: false, // Allow images to be loaded cross-origin
   })
 ); 
 app.use(morgan("dev")); 
 
+// Serve static files from uploads directory BEFORE Arcjet middleware
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); 
+
 app.use(async (req, res, next) => {
+  // Skip Arcjet for static file requests
+  if (req.path.startsWith('/uploads')) {
+    return next();
+  }
+  
   try {
     const decision = await aj.protect(req, {
       requested: 1, 

@@ -28,7 +28,19 @@ export const useProductStore = create((set, get) => ({
 
     try {
       const { formData } = get();
-      await axios.post(`${BASE_URL}/api/products`, formData);
+      
+      // Create FormData for file upload
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("price", formData.price);
+      data.append("image", formData.image);
+
+      await axios.post(`${BASE_URL}/api/products`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      
       await get().fetchProducts();
       get().resetForm();
       toast.success("Product added successfully");
@@ -86,7 +98,26 @@ updateProduct: async (id) => {
     set({ loading: true });
     try {
       const { formData } = get();
-      const response = await axios.put(`${BASE_URL}/api/products/${id}`, formData);
+      
+      // Create FormData for file upload
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("price", formData.price);
+      
+      // Only append image if it's a new file
+      if (formData.image instanceof File) {
+        data.append("image", formData.image);
+      } else if (typeof formData.image === 'string') {
+        // If it's still a string (existing image URL), send it as is
+        data.append("imageUrl", formData.image);
+      }
+
+      const response = await axios.put(`${BASE_URL}/api/products/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      
       set({ currentProduct: response.data.data });
       toast.success("Product updated successfully");
     } catch (error) {
@@ -98,7 +129,6 @@ updateProduct: async (id) => {
   },
 
 // fetch single product from database by using their id
-
   fetchProduct: async (id) => {
     set({ loading: true });
     try {
@@ -115,23 +145,5 @@ updateProduct: async (id) => {
       set({ loading: false });
     }
   },
-
-  // update product in database by using their id
-
-  updateProduct: async (id) => {
-    set({ loading: true });
-    try {
-      const { formData } = get();
-      const response = await axios.put(`${BASE_URL}/api/products/${id}`, formData);
-      set({ currentProduct: response.data.data });
-      toast.success("Product updated successfully");
-    } catch (error) {
-      toast.error("Something went wrong");
-      console.log("Error in updateProduct function", error);
-    } finally {
-      set({ loading: false });
-    }
-  },
-
 
 }));

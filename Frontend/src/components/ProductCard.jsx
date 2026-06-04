@@ -4,14 +4,33 @@ import { useProductStore } from "../store/useProductStore";
 
 function ProductCard({ product }) {
   const { deleteProduct } = useProductStore();
+  
+  // Construct full image URL
+  const getImageUrl = () => {
+    if (!product.image) return '';
+    
+    // If it's already a full URL (http/https)
+    if (product.image.startsWith('http')) {
+      return product.image;
+    }
+    
+    // If it's a relative path, prepend the API URL
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    return `${baseUrl}${product.image}`;
+  };
+  
   return (
     <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
       {/* PRODUCT IMAGE */}
       <figure className="relative pt-[56.25%]">
         <img
-          src={product.image}
+          src={getImageUrl()}
           alt={product.name}
           className="absolute top-0 left-0 w-full h-full object-cover"
+          onError={(e) => {
+            console.error('Image failed to load:', getImageUrl());
+            e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
+          }}
         />
       </figure>
 

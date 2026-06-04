@@ -62,19 +62,35 @@ function AddProductModal() {
             {/* PRODUCT IMAGE */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text text-base font-medium">Image URL</span>
+                <span className="label-text text-base font-medium">Product Image</span>
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-base-content/50">
-                  <ImageIcon className="size-5" />
+              <div className="space-y-3">
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="file-input file-input-bordered w-full focus:file-input-primary transition-colors duration-200"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setFormData({ ...formData, image: file });
+                      }
+                    }}
+                  />
                 </div>
-                <input
-                  type="text"
-                  placeholder="https://example.com/image.jpg"
-                  className="input input-bordered w-full pl-10 py-3 focus:input-primary transition-colors duration-200"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                />
+                {/* Image Preview */}
+                {formData.image && (
+                  <div className="relative w-full h-48 rounded-lg overflow-hidden border border-base-300">
+                    <img
+                      src={typeof formData.image === 'string' ? formData.image : URL.createObjectURL(formData.image)}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/400x300?text=Image+Preview';
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
-  "type":"module",
+  "type": "module",
   "directories": {
     "lib": "lib"
   },
@@ -21,6 +21,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
-    "morgan": "^1.10.1"
+    "morgan": "^1.10.1",
+    "multer": "^2.1.1"
   }
 }

@@ -54,9 +54,16 @@ function ProductPage() {
         {/* PRODUCT IMAGE */}
         <div className="rounded-lg overflow-hidden shadow-lg bg-base-100">
           <img
-            src={currentProduct?.image}
+            src={
+              currentProduct?.image?.startsWith('http') 
+                ? currentProduct.image 
+                : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${currentProduct?.image}`
+            }
             alt={currentProduct?.name}
             className="size-full object-cover"
+            onError={(e) => {
+              e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
+            }}
           />
         </div>
 
@@ -102,18 +109,46 @@ function ProductPage() {
                 />
               </div>
 
-              {/* PRODUCT IMAGE URL */}
+              {/* PRODUCT IMAGE */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text text-base font-medium">Image URL</span>
+                  <span className="label-text text-base font-medium">Product Image</span>
                 </label>
-                <input
-                  type="text"
-                  placeholder="https://example.com/image.jpg"
-                  className="input input-bordered w-full"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                />
+                <div className="space-y-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="file-input file-input-bordered w-full"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setFormData({ ...formData, image: file });
+                      }
+                    }}
+                  />
+                  {/* Current/Preview Image */}
+                  {formData.image && (
+                    <div className="relative w-full h-32 rounded-lg overflow-hidden border border-base-300">
+                      <img
+                        src={
+                          typeof formData.image === 'string' 
+                            ? (formData.image.startsWith('http') 
+                                ? formData.image 
+                                : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${formData.image}`)
+                            : URL.createObjectURL(formData.image)
+                        }
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
+                        }}
+                      />
+                    </div>
+                  )}
+                  <p className="text-sm text-base-content/60">
+                    Leave empty to keep current image
+                  </p>
+                </div>
               </div>
 
               {/* FORM ACTIONS */}
@@ -126,7 +161,7 @@ function ProductPage() {
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  disabled={loading || !formData.name || !formData.price || !formData.image}
+                  disabled={loading || !formData.name || !formData.price}
                 >
                   {loading ? (
                     <span className="loading loading-spinner loading-sm" />
