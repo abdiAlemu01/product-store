@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import { useCommerceStore } from "../store/useCommerceStore";
 
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 function AdminDashboard() {
   const [searchPhone, setSearchPhone] = useState("");
   const [promotionForm, setPromotionForm] = useState({
@@ -274,7 +276,7 @@ function AdminDashboard() {
                     <div className="flex flex-wrap items-center gap-3">
                       {order.product_image && (
                         <img
-                          src={order.product_image}
+                          src={`${BASE_URL}${order.product_image}`}
                           alt={order.product_name}
                           className="w-16 h-16 rounded-lg object-cover"
                         />

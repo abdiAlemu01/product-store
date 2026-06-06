@@ -58,11 +58,7 @@ function ProductPage() {
         <div className="bg-base-100 rounded-2xl overflow-hidden shadow-2xl border-2 border-base-300/50">
           <div className="aspect-square w-full relative bg-base-200">
             <img
-              src={
-                currentProduct?.image?.startsWith('http') 
-                  ? currentProduct.image 
-                  : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${currentProduct?.image}`
-              }
+              src={currentProduct?.image ? `http://localhost:3000${currentProduct.image}` : ''}
               alt={currentProduct?.name}
               className="absolute inset-0 w-full h-full object-contain p-4"
               onError={(e) => {
@@ -155,9 +151,7 @@ function ProductPage() {
                           <img
                             src={
                               typeof formData.image === "string"
-                                ? formData.image.startsWith("http")
-                                  ? formData.image
-                                  : `${import.meta.env.VITE_API_URL || "http://localhost:3000"}${formData.image}`
+                                ? `http://localhost:3000${formData.image}`
                                 : URL.createObjectURL(formData.image)
                             }
                             alt="Preview"

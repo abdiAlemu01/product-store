@@ -14,18 +14,18 @@ export const getProducts =async(req,res)=>{
 }
 export const createProduct = async (req, res) => {
   const { name, price } = req.body;
-  
+
   if (!name || !price) {
-    return res.status(400).json({ 
-      success: false, 
-      message: "Please provide name and price" 
+    return res.status(400).json({
+      success: false,
+      message: "Please provide name and price"
     });
   }
 
   if (!req.file) {
-    return res.status(400).json({ 
-      success: false, 
-      message: "Please provide an image" 
+    return res.status(400).json({
+      success: false,
+      message: "Please provide an image"
     });
   }
 
@@ -48,7 +48,7 @@ export const createProduct = async (req, res) => {
 
     // Send SMS notification to all customers
     const smsMessage = `🆕 NEW PRODUCT ALERT!\n\n${name}\nPrice: $${price}\n\nCheck it out now on our store!\n\nThank you for being our valued customer!`;
-    
+
     for (const customer of customers) {
       await sendSMS(customer.phone_number, smsMessage);
     }
@@ -78,37 +78,38 @@ export const getProduct =async(req,res)=>{
 
 export const updateProduct = async (req, res) => {
   const { id } = req.params;
-  const { name, price, imageUrl } = req.body;
+  const { name, price } = req.body;
 
   try {
     if (!name || !price) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: "Name and price are required" 
+        message: "Name and price are required"
       });
     }
 
     let image;
-    
+
     // If a new file was uploaded, use it
     if (req.file) {
       image = `/uploads/${req.file.filename}`;
-    } 
-    // If no new file but imageUrl exists (keeping old image)
-    else if (imageUrl) {
-      image = imageUrl;
-    } 
-    // No image provided at all
-    else {
-      return res.status(400).json({ 
-        success: false,
-        message: "Image is required" 
-      });
+    } else {
+      // Keep the existing image if no new file uploaded
+      const existingProduct = await sql`
+        SELECT image FROM products WHERE id = ${id} LIMIT 1
+      `;
+      if (existingProduct.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Product not found"
+        });
+      }
+      image = existingProduct[0].image;
     }
 
     // Update query
     const updateProduct = await sql`
-      UPDATE products 
+      UPDATE products
       SET name = ${name}, price = ${price}, image = ${image}
       WHERE id = ${id}
       RETURNING *;
@@ -116,8 +117,8 @@ export const updateProduct = async (req, res) => {
 
     // If no product found
     if (updateProduct.length === 0) {
-      return res.status(404).json({ 
-        success: false, 
+      return res.status(404).json({
+        success: false,
         message: "Product not found"
       });
     }

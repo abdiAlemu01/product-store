@@ -17,14 +17,9 @@ function ProductCard({ product, isAdmin = true, onOrderClick }) {
   // Construct full image URL
   const getImageUrl = () => {
     if (!product.image) return '';
-    
-    // If it's already a full URL (http/https)
-    if (product.image.startsWith('http')) {
-      return product.image;
-    }
-    
+
     // If it's a relative path, prepend the API URL
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const baseUrl = 'http://localhost:3000';
     return `${baseUrl}${product.image}`;
   };
   
