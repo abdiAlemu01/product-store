@@ -1,4 +1,5 @@
-import { sql } from "../config/db.js"
+import { sql } from "../config/db.js";
+import { sendSMS } from "../lib/smsService.js";
 export const getProducts =async(req,res)=>{
     try {
         const products = await sql`SELECT * FROM products
@@ -31,13 +32,27 @@ export const createProduct = async (req, res) => {
   try {
     // Create image URL path
     const imageUrl = `/uploads/${req.file.filename}`;
-    
+
     const newProduct = await sql`
-      INSERT INTO products (name, price, image) 
-      VALUES(${name}, ${price}, ${imageUrl}) 
+      INSERT INTO products (name, price, image)
+      VALUES(${name}, ${price}, ${imageUrl})
       RETURNING *
     `;
+
+    // Get all customers to send SMS notification
+    const customers = await sql`
+      SELECT phone_number, full_name
+      FROM users
+      WHERE role = 'customer'
+    `;
+
+    // Send SMS notification to all customers
+    const smsMessage = `🆕 NEW PRODUCT ALERT!\n\n${name}\nPrice: $${price}\n\nCheck it out now on our store!\n\nThank you for being our valued customer!`;
     
+    for (const customer of customers) {
+      await sendSMS(customer.phone_number, smsMessage);
+    }
+
     res.status(200).json({ success: true, data: newProduct[0] });
   } catch (error) {
     console.log("Error in create product function", error);

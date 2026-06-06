@@ -19,17 +19,21 @@ function AdminDashboard() {
   const {
     adminOrders,
     customerLookup,
+    allCustomers,
     fetchOrders,
     lookupCustomerByPhone,
     createPromotion,
+    fetchAllCustomers,
     loadingOrders,
     loadingLookup,
+    loadingCustomers,
     creatingPromotion,
   } = useCommerceStore();
 
   useEffect(() => {
     fetchOrders();
-  }, [fetchOrders]);
+    fetchAllCustomers();
+  }, [fetchOrders, fetchAllCustomers]);
 
   const handleSearchCustomer = async (e) => {
     e.preventDefault();
@@ -60,6 +64,52 @@ function AdminDashboard() {
 
   return (
     <div className="space-y-6 mb-8">
+      <div className="card bg-base-100 shadow-lg border border-base-300/60">
+        <div className="card-body">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+              <UsersIcon className="size-6 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold">All Registered Customers</h2>
+              <p className="text-base-content/60 text-sm">
+                View all customers registered in the system.
+              </p>
+            </div>
+          </div>
+
+          {loadingCustomers ? (
+            <div className="flex justify-center py-12">
+              <span className="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+          ) : allCustomers.length > 0 ? (
+            <div className="space-y-3 max-h-96 overflow-y-auto">
+              {allCustomers.map((customer) => (
+                <div
+                  key={customer.id}
+                  className="rounded-2xl border border-base-300 bg-base-100 px-4 py-3"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="font-semibold">{customer.full_name}</p>
+                      <p className="text-sm text-base-content/70">{customer.phone_number}</p>
+                    </div>
+                    <div className="badge badge-secondary">
+                      {new Date(customer.created_at).toLocaleDateString()}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <UsersIcon className="size-12 text-base-content/30 mb-3" />
+              <p className="text-base-content/60">No customers registered yet.</p>
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="card bg-base-100 shadow-lg border border-base-300/60">
           <div className="card-body">
@@ -212,8 +262,15 @@ function AdminDashboard() {
                     key={order.id}
                     className="rounded-2xl border border-base-300 bg-base-100 px-4 py-4"
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div>
+                    <div className="flex flex-wrap items-center gap-3">
+                      {order.product_image && (
+                        <img
+                          src={order.product_image}
+                          alt={order.product_name}
+                          className="w-16 h-16 rounded-lg object-cover"
+                        />
+                      )}
+                      <div className="flex-1">
                         <p className="font-semibold">{order.product_name}</p>
                         <p className="text-sm text-base-content/70">
                           {order.customer_name} - {order.customer_phone}

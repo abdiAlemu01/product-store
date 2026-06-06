@@ -1,4 +1,27 @@
 import { sql } from "../config/db.js";
+import { sendSMS } from "../lib/smsService.js";
+
+export const getAllCustomers = async (req, res) => {
+  try {
+    const customers = await sql`
+      SELECT id, full_name, phone_number, role, created_at
+      FROM users
+      WHERE role = 'customer'
+      ORDER BY created_at DESC
+    `;
+
+    res.status(200).json({
+      success: true,
+      data: customers,
+    });
+  } catch (error) {
+    console.log("Error in getAllCustomers", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
 
 export const getCustomerByPhone = async (req, res) => {
   const phoneNumber = req.query.phoneNumber?.trim();
@@ -103,6 +126,10 @@ export const createPromotion = async (req, res) => {
       )
       RETURNING id, customer_id, phone_number, title, message, discount_percent, created_at
     `;
+
+    // Send SMS notification to customer
+    const smsMessage = `🎉 ${title.trim()}\n\n${message?.trim() || ""}\n${discountPercent ? `Discount: ${discountPercent}%` : ""}\n\nThank you for being our valued customer!`;
+    await sendSMS(customers[0].phone_number, smsMessage);
 
     res.status(201).json({
       success: true,

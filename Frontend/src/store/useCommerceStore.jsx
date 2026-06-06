@@ -9,8 +9,10 @@ export const useCommerceStore = create((set) => ({
   orders: [],
   adminOrders: [],
   customerLookup: null,
+  allCustomers: [],
   loadingOrders: false,
   loadingLookup: false,
+  loadingCustomers: false,
   creatingPromotion: false,
   placingOrder: false,
 
@@ -115,4 +117,23 @@ export const useCommerceStore = create((set) => ({
   },
 
   clearCustomerLookup: () => set({ customerLookup: null }),
+
+  fetchAllCustomers: async () => {
+    set({ loadingCustomers: true });
+
+    try {
+      const response = await axios.get(`${BASE_URL}/api/customers/all`, {
+        headers: getAuthHeaders(),
+      });
+
+      set({ allCustomers: response.data.data });
+      return response.data.data;
+    } catch (error) {
+      const message = error.response?.data?.message || "Unable to fetch customers";
+      toast.error(message);
+      throw error;
+    } finally {
+      set({ loadingCustomers: false });
+    }
+  },
 }));
