@@ -6,6 +6,7 @@ import morgan from "morgan";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import bcrypt from "bcrypt";
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
@@ -132,6 +133,11 @@ async function initDB() {
     `;
 
     await sql`
+      ALTER TABLE users
+      ALTER COLUMN password TYPE VARCHAR(255)
+    `;
+
+    await sql`
       CREATE UNIQUE INDEX IF NOT EXISTS users_phone_number_idx
       ON users(phone_number)
     `;
@@ -229,10 +235,12 @@ async function initDB() {
     const adminName = process.env.ADMIN_NAME || "System Admin";
     const adminPhone = process.env.ADMIN_PHONE || "+251900000000";
     const adminUsername = process.env.ADMIN_USERNAME || "system-admin";
+    const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+    const hashedAdminPassword = await bcrypt.hash(adminPassword, 10);
 
     await sql`
-      INSERT INTO users (username, full_name, phone_number, role)
-      VALUES (${adminUsername}, ${adminName}, ${adminPhone}, 'admin')
+      INSERT INTO users (username, full_name, phone_number, password, role)
+      VALUES (${adminUsername}, ${adminName}, ${adminPhone}, ${hashedAdminPassword}, 'admin')
       ON CONFLICT (phone_number) DO NOTHING
     `;
     

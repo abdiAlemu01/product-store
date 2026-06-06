@@ -19,8 +19,10 @@ function TrackOrderPage() {
   const [registerForm, setRegisterForm] = useState({
     fullName: "",
     phoneNumber: "",
+    password: "",
   });
   const [loginPhone, setLoginPhone] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -50,13 +52,15 @@ function TrackOrderPage() {
     setRegisterForm({
       fullName: "",
       phoneNumber: "",
+      password: "",
     });
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    await loginWithPhone(loginPhone);
+    await loginWithPhone(loginPhone, loginPassword);
     setLoginPhone("");
+    setLoginPassword("");
   };
 
   const handleSubmitOrder = async (e) => {
@@ -135,6 +139,19 @@ function TrackOrderPage() {
                     }
                     required
                   />
+                  <input
+                    type="password"
+                    className="input input-bordered w-full"
+                    placeholder="Password"
+                    value={registerForm.password}
+                    onChange={(e) =>
+                      setRegisterForm((currentForm) => ({
+                        ...currentForm,
+                        password: e.target.value,
+                      }))
+                    }
+                    required
+                  />
                   <button type="submit" className="btn btn-primary w-full" disabled={authLoading}>
                     Register Customer
                   </button>
@@ -155,6 +172,14 @@ function TrackOrderPage() {
                     placeholder="Phone number"
                     value={loginPhone}
                     onChange={(e) => setLoginPhone(e.target.value)}
+                    required
+                  />
+                  <input
+                    type="password"
+                    className="input input-bordered w-full"
+                    placeholder="Password"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
                     required
                   />
                   <button type="submit" className="btn btn-secondary w-full" disabled={authLoading}>
