@@ -13,64 +13,72 @@ function AboutPage() {
   const sections = [
     {
       icon: BookOpenIcon,
-      title: "Our Story",
-      description: "We started our business to make quality products accessible to local communities through reliable delivery, fair pricing, and excellent customer service.",
+      title: "SEENA ",
+       description:"Nuti daldala kana kan eegaleef meeshaleen qulqulina qaban haawasa magaala keenya fi naanawa  baadiya ishee meeshale qulqulu gati madalaawan bakka jirani fi qaaman nu bira dhufani akk argatanifi.",
       color: "text-blue-500"
     },
     {
       icon: TargetIcon,
-      title: "Our Mission",
-      description: "To provide affordable, trusted, and convenient shopping experiences for every customer.",
+      title: "Kaayoon Keenya",
+      // description: "To provide affordable, trusted, and convenient shopping experiences for every customer.",
+      description:"Meeshalee qulqulina isaani eegatan, amanama fi fudhatama haawasa keenya birati qaban maamiltoota keenya hundaaf dhiyeesudha.",
       color: "text-green-500"
     },
     {
       icon: CheckCircleIcon,
-      title: "Why Choose Us",
+      title: "Maaliif nu filatu",
       features: [
-        "Quality-checked products",
-        "Fast delivery",
-        "Customer-first support",
+       
+        "Meeshalee qulqulina isaani eegatan waan dhiyeesinufi",
+        "Hatataman dhiyeesi waan goonuf",
+        "Maamiltoota keenyaf dursa waan keninuuf",
+        "Feedhi maamiltoota keeny waan eegnuuf",
+        "Bakka jirtan teesani ajajachu waan dandeesanif ",
+        "Bakka jirtaniti isiif waan dhiyeesinuuf"
+
      
       ],
       color: "text-purple-500"
     },
     {
       icon: ShieldCheckIcon,
-      title: "Our Quality Promise",
-      description: "Every product is checked before delivery to ensure it meets our quality standards.",
+      title: "Qulqulina Meeshalee Keenya",
+      description:"Meeshaleen keenya hundi isaani maamiltoota keenyaf osoo hin dhiyeesin dura qulqulinni isaani kaan mirkana'aniidha. ",
       color: "text-orange-500"
     },
     {
       icon: UsersIcon,
-      title: "Community Support",
-      description: "We work with local suppliers and businesses to strengthen our community economy.",
+      title: "Gargaarsa hawaasa",
+      // description: "We work with local suppliers and businesses to strengthen our community economy.",
+      description:"Nuti dhiyeesitoota fi daldaltoota naannoo keenya waalin taane hawaasni meeshalee qulqulina qaban argachuun dinagde isani akka foyeesan gargaarudha.",
       features: [
-        "Supporting local producers",
-        "Promoting local merchants",
-        "Creating opportunities for small businesses"
+        "daldaltoota naannoo jajabeesu",
+        "daldaltoota naannoo beeksisu",
+        "daldaltootaf xixiqqoof carra hoji uumuu"
       ],
       color: "text-teal-500"
     },
     {
       icon: TruckIcon,
-      title: "Our Delivery Commitment",
-      description: "We strive to deliver orders quickly, safely, and reliably.",
+      title: "Dhiyeesi keenya",
+ 
+      description:"Nuti dhiyeesi ajaja safisan, of eeganoon fi amanamuman ni keenina",
       color: "text-indigo-500"
     },
     {
       icon: CreditCardIcon,
-      title: "Flexible Payment Options",
+      title: "Kaafalti filaanoo garagara",
       features: [
-        "Cash on Delivery",
-        "Installment Plans",
-        "Mobile Payments"
+        "Kaashidhan kafalu",
+        "Qoqodatani kafalu",
+        "moobil transfer"
       ],
       color: "text-pink-500"
     },
     {
       icon: GiftIcon,
-      title: "Loyalty & Rewards",
-      description: "Regular customers receive exclusive offers, discounts, and rewards.",
+      title: "Amanamuumma fi badhaasa",
+            description:"Maamiltoota keenya yeroo maraaf tajajila adda, discounts fi badhaasa ni goona ",
       color: "text-yellow-500"
     }
   ];
@@ -79,10 +87,11 @@ function AboutPage() {
     <div className="container mx-auto px-4 py-16">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">About Us</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">WAAY'EE KEENYA</h1>
         <p className="text-lg text-base-content/70">
-          Learn more about our company, mission, and commitment to serving you better
+          Kaayoon mana gurgurta meeshalee mana CHARE ,Ergamni fi kutannoon is haawasa isaa meeshalee mana fi kanneen biro gati madalaawa taa'een dhiyeesufidha.
         </p>
+        
       </div>
 
       {/* Sections Grid */}
@@ -148,17 +157,17 @@ function AboutPage() {
 
       {/* CTA Section */}
       <div className="text-center mt-16 p-8 bg-base-100 rounded-box shadow-lg max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold mb-4">Join Our Community</h2>
+        <h2 className="text-3xl font-bold mb-4">Hawaasa keenya qunama</h2>
         <p className="text-base-content/70 mb-6">
-          Experience the difference of shopping with a company that truly cares about quality, 
-          community, and customer satisfaction
+         Koota daldaltoota keenya muuxano garagara qaban waalin muuxano waljijira , walin hojadhati maamiltoota keessan gammachiisa
         </p>
+        
         <div className="flex flex-wrap justify-center gap-4">
           <a href="/" className="btn btn-primary">
-            Start Shopping
+            daldala jalqaba
           </a>
           <a href="/contact" className="btn btn-outline">
-            Contact Us
+            Asin nu qunama
           </a>
         </div>
       </div>
@@ -171,9 +180,9 @@ function AboutPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
             </svg>
           </div>
-          <div className="stat-title">Happy Customers</div>
-          <div className="stat-value text-primary">10K+</div>
-          <div className="stat-desc">Growing every day</div>
+          <div className="stat-title">Maamiltoota gammado</div>
+          <div className="stat-value text-primary">550+</div>
+          <div className="stat-desc">Guyyaa guyyaan dabala deema</div>
         </div>
         
         <div className="stat">
@@ -182,9 +191,9 @@ function AboutPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
             </svg>
           </div>
-          <div className="stat-title">Products Delivered</div>
-          <div className="stat-value text-secondary">50K+</div>
-          <div className="stat-desc">Fast & reliable</div>
+          <div className="stat-title">Meeshalee dhiyeesine</div>
+          <div className="stat-value text-secondary">4000+</div>
+          <div className="stat-desc">safisan fi amanamuman</div>
         </div>
         
         <div className="stat">
@@ -193,9 +202,9 @@ function AboutPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
             </svg>
           </div>
-          <div className="stat-title">Local Partners</div>
-          <div className="stat-value text-accent">100+</div>
-          <div className="stat-desc">Supporting community</div>
+          <div className="stat-title">Hawaasa tajajilee</div>
+          <div className="stat-value text-accent">5000+</div>
+
         </div>
       </div>
     </div>

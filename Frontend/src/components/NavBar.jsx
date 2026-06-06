@@ -1,12 +1,14 @@
 // NavBar.jsx
 import { Link, useResolvedPath } from 'react-router-dom'
-import { ShoppingBagIcon, MenuIcon } from 'lucide-react'
-import ThemeSelector   from './ThemeSelector'
+import { ShoppingBagIcon, MenuIcon, LogInIcon, LogOutIcon, ShieldCheckIcon } from 'lucide-react'
+import ThemeSelector from './ThemeSelector'
 import { useProductStore } from '../store/useProductStore';
-
+import { useAuthStore } from '../store/useAuthStore';
+import AuthModal from './AuthModal';
 
 function NavBar() {
   const products = useProductStore(state => state.products);
+  const { user, logout } = useAuthStore();
   const {pathname}=useResolvedPath()
   const isHomePage=pathname==='/'
 
@@ -90,6 +92,27 @@ function NavBar() {
               {/* RIGHT SECTION */}
               <div className="flex-none flex items-center gap-3">
                 <ThemeSelector />
+                {user ? (
+                  <div className="flex items-center gap-2 rounded-full border border-base-300 px-3 py-2 bg-base-100">
+                    <ShieldCheckIcon className="size-4 text-primary" />
+                    <div className="text-sm leading-tight hidden sm:block">
+                      <div className="font-semibold">{user.full_name}</div>
+                      <div className="text-base-content/60 capitalize">{user.role}</div>
+                    </div>
+                    <button type="button" className="btn btn-sm btn-ghost" onClick={logout}>
+                      <LogOutIcon className="size-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm"
+                    onClick={() => document.getElementById("auth_modal")?.showModal()}
+                  >
+                    <LogInIcon className="size-4" />
+                    Sign In
+                  </button>
+                )}
                 {isHomePage && (
                   <Link to="/" className="indicator">
                     <div className="btn btn-ghost btn-circle hover:bg-primary/10">
@@ -104,6 +127,7 @@ function NavBar() {
 
             </div>
         </div>
+        <AuthModal />
     </div>
   )
 }

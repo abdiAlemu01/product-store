@@ -1,9 +1,15 @@
-import { EditIcon, Trash2Icon, ShoppingCartIcon, EyeIcon } from "lucide-react";
+import {
+  EditIcon,
+  Trash2Icon,
+  ShoppingCartIcon,
+  EyeIcon,
+  CreditCardIcon,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
 import { useState } from "react";
 
-function ProductCard({ product }) {
+function ProductCard({ product, isAdmin = true, onOrderClick }) {
   const { deleteProduct } = useProductStore();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -27,6 +33,12 @@ function ProductCard({ product }) {
     setImageError(true);
     // Placeholder image with gradient
     e.target.style.display = 'none';
+  };
+
+  const handleOrder = () => {
+    if (onOrderClick) {
+      onOrderClick(product);
+    }
   };
   
   return (
@@ -63,14 +75,24 @@ function ProductCard({ product }) {
           
           {/* Hover Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <div className="absolute bottom-4 left-4 right-4 flex gap-2">
+            <div className="absolute bottom-4 left-4 right-4 flex flex-col gap-2">
               <Link 
                 to={`/product/${product.id}`} 
-                className="btn btn-sm btn-primary flex-1 gap-2 shadow-xl"
+                className="btn btn-sm btn-primary w-full gap-2 shadow-xl"
               >
                 <EyeIcon className="size-4" />
                 View Details
               </Link>
+              {!isAdmin && (
+                <button
+                  type="button"
+                  onClick={handleOrder}
+                  className="btn btn-sm btn-secondary w-full gap-2 shadow-xl"
+                >
+                  <CreditCardIcon className="size-4" />
+                  Order Now
+                </button>
+              )}
             </div>
           </div>
           
@@ -96,30 +118,44 @@ function ProductCard({ product }) {
           </p>
         </div>
 
-        {/* CARD ACTIONS - Admin Only */}
+        {/* CARD ACTIONS */}
         <div className="divider my-2"></div>
         <div className="flex gap-2">
-          <Link 
-            to={`/product/${product.id}`} 
-            className="btn btn-sm btn-info btn-outline flex-1 gap-1"
-            title="Edit Product"
-          >
-            <EditIcon className="size-4" />
-            <span className="hidden sm:inline">Edit</span>
-          </Link>
+          {isAdmin ? (
+            <>
+              <Link 
+                to={`/product/${product.id}`} 
+                className="btn btn-sm btn-info btn-outline flex-1 gap-1"
+                title="Edit Product"
+              >
+                <EditIcon className="size-4" />
+                <span className="hidden sm:inline">Edit</span>
+              </Link>
 
-          <button
-            className="btn btn-sm btn-error btn-outline gap-1"
-            onClick={() => {
-              if (window.confirm(`Are you sure you want to delete "${product.name}"?`)) {
-                deleteProduct(product.id);
-              }
-            }}
-            title="Delete Product"
-          >
-            <Trash2Icon className="size-4" />
-            <span className="hidden sm:inline">Delete</span>
-          </button>
+              <button
+                className="btn btn-sm btn-error btn-outline gap-1"
+                onClick={() => {
+                  if (window.confirm(`Are you sure you want to delete "${product.name}"?`)) {
+                    deleteProduct(product.id);
+                  }
+                }}
+                title="Delete Product"
+                type="button"
+              >
+                <Trash2Icon className="size-4" />
+                <span className="hidden sm:inline">Delete</span>
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={handleOrder}
+              className="btn btn-sm btn-primary flex-1 gap-2"
+            >
+              <ShoppingCartIcon className="size-4" />
+              Order Product
+            </button>
+          )}
         </div>
       </div>
     </div>

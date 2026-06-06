@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
 import { useEffect } from "react";
 import { ArrowLeftIcon, SaveIcon, Trash2Icon } from "lucide-react";
+import { useAuthStore } from "../store/useAuthStore";
 function ProductPage() {
   const {
     currentProduct,
@@ -13,8 +14,10 @@ function ProductPage() {
     updateProduct,
     deleteProduct,
   } = useProductStore();
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
   const { id } = useParams();
+  const isAdmin = user?.role === "admin";
 
   useEffect(() => {
     fetchProduct(id);
@@ -85,133 +88,136 @@ function ProductPage() {
         </div>
 
         {/* PRODUCT FORM */}
-        <div className="card bg-base-100 shadow-lg">
-          <div className="card-body">
-            <h2 className="card-title text-2xl mb-6">Edit Product</h2>
+        {isAdmin ? (
+          <div className="card bg-base-100 shadow-lg">
+            <div className="card-body">
+              <h2 className="card-title text-2xl mb-6">Edit Product</h2>
 
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                updateProduct(id);
-              }}
-              className="space-y-6"
-            >
-              {/* PRODUCT NAME */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text text-base font-medium">Product Name</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter product name"
-                  className="input input-bordered w-full"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                />
-              </div>
-
-              {/* PRODUCT PRICE */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text text-base font-medium">Price</span>
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0.00"
-                  className="input input-bordered w-full"
-                  value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                />
-              </div>
-
-              {/* PRODUCT IMAGE */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text text-base font-medium">Product Image</span>
-                </label>
-                <div className="space-y-4">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  updateProduct(id);
+                }}
+                className="space-y-6"
+              >
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text text-base font-medium">Product Name</span>
+                  </label>
                   <input
-                    type="file"
-                    accept="image/*"
-                    className="file-input file-input-bordered w-full"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        // Validate file size (5MB max)
-                        if (file.size > 5 * 1024 * 1024) {
-                          alert('Image size should be less than 5MB');
-                          e.target.value = '';
-                          return;
-                        }
-                        setFormData({ ...formData, image: file });
-                      }
-                    }}
+                    type="text"
+                    placeholder="Enter product name"
+                    className="input input-bordered w-full"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
-                  {/* Current/Preview Image */}
-                  {formData.image && (
-                    <div className="relative w-full rounded-lg overflow-hidden border-2 border-primary/30 bg-base-200 shadow-lg">
-                      <div className="aspect-square w-full relative">
-                        <img
-                          src={
-                            typeof formData.image === 'string' 
-                              ? (formData.image.startsWith('http') 
-                                  ? formData.image 
-                                  : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${formData.image}`)
-                              : URL.createObjectURL(formData.image)
+                </div>
+
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text text-base font-medium">Price</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    className="input input-bordered w-full"
+                    value={formData.price}
+                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text text-base font-medium">Product Image</span>
+                  </label>
+                  <div className="space-y-4">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="file-input file-input-bordered w-full"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          if (file.size > 5 * 1024 * 1024) {
+                            alert("Image size should be less than 5MB");
+                            e.target.value = "";
+                            return;
                           }
-                          alt="Preview"
-                          className="absolute inset-0 w-full h-full object-contain p-2"
-                          onError={(e) => {
-                            e.target.src = 'https://via.placeholder.com/400x400?text=Image+Preview';
-                          }}
-                        />
-                      </div>
-                      <div className="absolute top-2 right-2 z-10">
-                        <div className="badge badge-success gap-1 shadow-lg">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          {typeof formData.image === 'string' ? 'Current Image' : 'New Image'}
+                          setFormData({ ...formData, image: file });
+                        }
+                      }}
+                    />
+                    {formData.image && (
+                      <div className="relative w-full rounded-lg overflow-hidden border-2 border-primary/30 bg-base-200 shadow-lg">
+                        <div className="aspect-square w-full relative">
+                          <img
+                            src={
+                              typeof formData.image === "string"
+                                ? formData.image.startsWith("http")
+                                  ? formData.image
+                                  : `${import.meta.env.VITE_API_URL || "http://localhost:3000"}${formData.image}`
+                                : URL.createObjectURL(formData.image)
+                            }
+                            alt="Preview"
+                            className="absolute inset-0 w-full h-full object-contain p-2"
+                            onError={(e) => {
+                              e.target.src = "https://via.placeholder.com/400x400?text=Image+Preview";
+                            }}
+                          />
+                        </div>
+                        <div className="absolute top-2 right-2 z-10">
+                          <div className="badge badge-success gap-1 shadow-lg">
+                            {typeof formData.image === "string" ? "Current Image" : "New Image"}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  <p className="text-xs text-base-content/60 flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Leave empty to keep current image. Max 5MB.
-                  </p>
+                    )}
+                    <p className="text-xs text-base-content/60">
+                      Leave empty to keep current image. Max 5MB.
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              {/* FORM ACTIONS */}
-              <div className="flex justify-between mt-8">
-                <button type="button" onClick={handleDelete} className="btn btn-error">
-                  <Trash2Icon className="size-4 mr-2" />
-                  Delete Product
-                </button>
+                <div className="flex justify-between mt-8">
+                  <button type="button" onClick={handleDelete} className="btn btn-error">
+                    <Trash2Icon className="size-4 mr-2" />
+                    Delete Product
+                  </button>
 
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={loading || !formData.name || !formData.price}
-                >
-                  {loading ? (
-                    <span className="loading loading-spinner loading-sm" />
-                  ) : (
-                    <>
-                      <SaveIcon className="size-4 mr-2" />
-                      Save Changes
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={loading || !formData.name || !formData.price}
+                  >
+                    {loading ? (
+                      <span className="loading loading-spinner loading-sm" />
+                    ) : (
+                      <>
+                        <SaveIcon className="size-4 mr-2" />
+                        Save Changes
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="card bg-base-100 shadow-lg">
+            <div className="card-body">
+              <h2 className="card-title text-2xl mb-4">Customer View</h2>
+              <p className="text-base-content/70">
+                Customers can review product details here and place orders from the
+                `Track Order` page after signing in with their phone number.
+              </p>
+              <button type="button" className="btn btn-primary mt-4" onClick={() => navigate("/track-order")}>
+                Go To Customer Orders
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import axios from "axios"
 import { toast} from "react-hot-toast"
+import { getAuthHeaders } from "../lib/session";
 const BASE_URL = import.meta.env.VITE_API_URL;
 export const useProductStore = create((set, get) => ({
   // product state
@@ -38,6 +39,7 @@ export const useProductStore = create((set, get) => ({
       await axios.post(`${BASE_URL}/api/products`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
+          ...getAuthHeaders(),
         },
       });
       
@@ -78,7 +80,9 @@ export const useProductStore = create((set, get) => ({
     console.log("deleteProduct function called", id);
     set({ loading: true });
     try {
-      await axios.delete(`${BASE_URL}/api/products/${id}`);
+      await axios.delete(`${BASE_URL}/api/products/${id}`, {
+        headers: getAuthHeaders(),
+      });
       set((prev) => ({ products: prev.products.filter((product) => product.id !== id) }));
       toast.success("Product deleted successfully");
     } catch (error) {
@@ -115,6 +119,7 @@ updateProduct: async (id) => {
       const response = await axios.put(`${BASE_URL}/api/products/${id}`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
+          ...getAuthHeaders(),
         },
       });
       

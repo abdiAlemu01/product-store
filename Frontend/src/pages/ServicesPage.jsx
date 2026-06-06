@@ -14,40 +14,37 @@ function ServicesPage() {
   const services = [
     {
       icon: TruckIcon,
-      title: "Home Delivery",
-      description: "Fast and reliable delivery right to your doorstep. We ensure your orders arrive safely and on time.",
+      title: "Dhiyeesi mana",
+      description:"Dhiyeesi safisa fi amanama hanga manati ni kenina. Nuti ajaja keessan kara of eegano qabu fi yeroon ni raawana.",
       features: [
-        "Same-day delivery available",
-        "Track your delivery in real-time",
-        "Contactless delivery option",
-        "Flexible delivery time slots"
+        
       ]
     },
     {
       icon: PackageSearchIcon,
-      title: "Order Tracking",
-      description: "Stay updated with real-time tracking of your orders from warehouse to your doorstep.",
+      title: "Ajaja keessan to'achu",
+      description:"Haala mijaata maamiltoni keenya bakka jiran ta'ani ajaja isaani to'achu danda'an waan mijeesineef bakkuma jirtan teesani ajaja keessan to'achu fi hordofu dandeesu",
       features: [
-        "Real-time status updates",
-        "SMS and email notifications",
-        "Live location tracking",
-        "Estimated delivery time"
+        // "Real-time status updates",
+        // "SMS and email notifications",
+        // "Live location tracking",
+        // "Estimated delivery time"
       ]
     },
     {
       icon: HeadphonesIcon,
-      title: "Customer Support",
-      description: "Our dedicated support team is here to help you 24/7 with any questions or concerns.",
+      title: "Maamiltoota gargaaru",
+      description:"Nuti maamiltoota keenya guyyaa guutu kallati maraan kan gargaarudha",
       features: [
-        "24/7 customer service",
-        "Multiple contact channels",
-        "Quick response time",
-        "Expert assistance"
+        "Taajajila guuyya guutu kenina",
+        "Kaaralee qunaamti garagara qabna", 
+        "Gaafi keessanif deebi aaritin keenina",
+       
       ]
     },
     {
       icon: PackageIcon,
-      title: "Bulk Orders",
+      title: "Ajaaja jilma ",
       description: "Special pricing and handling for bulk orders. Perfect for businesses and large events.",
       features: [
         "Volume discounts",
@@ -123,10 +120,11 @@ function ServicesPage() {
     <div className="container mx-auto px-4 py-16">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Services</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">Tajajila Keenya</h1>
         <p className="text-lg text-base-content/70">
-          We provide comprehensive services to make your shopping experience seamless and enjoyable
+               Nuti tajajila cima mijata hundagaleessa maamiltoota keenya maraf ni kennina
         </p>
+      
       </div>
 
       {/* Services Grid */}
