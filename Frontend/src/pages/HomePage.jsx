@@ -58,25 +58,21 @@ function HomePage() {
       <div className="bg-gradient-to-r from-primary to-secondary text-primary-content">
         <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-6xl font-bold">MANA GURGURTAA</h1>
-            <p className="text-4xl md:text-6xl font-bold">MEESHALE MANA CHARE</p>
-            <p className="text-lg max-w-2xl mx-auto opacity-80">
-              Admin manages products and promotions, while customers register and
-              place orders clearly.
-            </p>
-
+            <h1 className="text-12xl md:text-6xl font-bold">MANA GURGURTAA</h1>
+            <p className="text-8xl md:text-6xl font-bold">MEESHALEE MANA CHARU TESFAYE</p>
+            
             <div className="flex flex-wrap justify-center gap-6 pt-6">
-              <div className="flex items-center gap-2">
-                <TruckIcon className="size-5" />
-                <span>Fast Delivery</span>
+              <div className="flex items-center gap-2 text-size-29">
+                <TruckIcon className="size-20" />
+                <span>Dhiyeesi safisan kenina</span>
               </div>
               <div className="flex items-center gap-2">
-                <ShieldCheckIcon className="size-5" />
-                <span>Admin Control</span>
+                <ShieldCheckIcon className="size-20" />
+                <span>Itti gaafatamuummaan isaa kan mirkana'ee</span>
               </div>
-              <div className="flex items-center gap-2">
-                <TagIcon className="size-5" />
-                <span>Phone Promotions</span>
+              <div className="flex items-center gap-2 ">
+                <TagIcon className="size-20" />
+                <span>Oomisha keenya gara weebsite, Tiktok, Telegram fi Message ni beeksisna</span>
               </div>
             </div>
           </div>
@@ -89,11 +85,11 @@ function HomePage() {
         <div className="bg-base-100 rounded-box shadow-lg p-4 mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="flex-1 w-full">
-              <div className="relative">
+              <div className="reative">
                 <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 size-5 text-base-content/50" />
                 <input
                   type="text"
-                  placeholder="Search products..."
+                  placeholder="Meesha barbaaduf..."
                   className="input input-bordered w-full pl-10"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}

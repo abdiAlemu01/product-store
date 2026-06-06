@@ -13,11 +13,11 @@ function NavBar() {
   const isHomePage=pathname==='/'
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Services', path: '/services' },
-    { name: 'Contact Us', path: '/contact' },
-    { name: 'Track Order', path: '/track-order' },
+    { name: 'Mana', path: '/' },
+    { name: "Waay'ee keenya", path: '/about' },
+    { name: 'Tajaajiloota', path: '/services' },
+    { name: 'Nu Qunamuuf', path: '/contact' },
+    { name: 'Meesha ajajachuuf', path: '/track-order' },
   ];
 
   return (
@@ -39,7 +39,7 @@ function NavBar() {
                         MANA GURGURTAA
                       </span>
                       <span className="text-xs md:text-sm text-base-content/70 font-medium">
-                        MEESHALE MANA CHARE
+                        MEESHALE MANA CHARU TESFAYE
                       </span>
                     </div>
                   </div>
@@ -110,7 +110,7 @@ function NavBar() {
                     onClick={() => document.getElementById("auth_modal")?.showModal()}
                   >
                     <LogInIcon className="size-4" />
-                    Sign In
+                    SEENA
                   </button>
                 )}
                 {isHomePage && (

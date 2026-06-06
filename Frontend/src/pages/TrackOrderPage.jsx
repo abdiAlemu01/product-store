@@ -2,6 +2,7 @@ import {
   PackageSearchIcon,
   SearchIcon,
   ShoppingBagIcon,
+  Trash2Icon,
   UserIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -13,7 +14,7 @@ import ProductCard from "../components/ProductCard";
 function TrackOrderPage() {
   const { products, fetchProducts, loading } = useProductStore();
   const { user, registerCustomer, loginWithPhone, loading: authLoading } = useAuthStore();
-  const { orders, fetchOrders, placeOrder, placingOrder, loadingOrders } = useCommerceStore();
+  const { orders, fetchOrders, placeOrder, placingOrder, loadingOrders, deleteOrder, deletingOrder } = useCommerceStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [registerForm, setRegisterForm] = useState({
@@ -72,6 +73,12 @@ function TrackOrderPage() {
     closeOrderForm();
   };
 
+  const handleDeleteOrder = async (orderId) => {
+    if (window.confirm("Are you sure you want to delete this order?")) {
+      await deleteOrder(orderId);
+    }
+  };
+
   const isCustomer = user?.role === "customer";
 
   return (
@@ -83,10 +90,10 @@ function TrackOrderPage() {
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold flex items-center gap-3">
                   <ShoppingBagIcon className="size-8 text-primary" />
-                  Customer Order Area
+                  Kara maamiltootni meesha ittin ajajatan
                 </h1>
                 <p className="text-base-content/70 mt-2">
-                  Register or sign in with your phone number, then place orders clearly.
+                Galma'a yookin Seena bilbila fi password keessan fayyadamuun ,sana booda waanta barbaadan ajajadha
                 </p>
               </div>
 
@@ -94,7 +101,7 @@ function TrackOrderPage() {
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-base-content/50" />
                 <input
                   type="text"
-                  placeholder="Search products..."
+                  placeholder="Meesha barbaduuf...."
                   className="input input-bordered w-full pl-9"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -110,13 +117,13 @@ function TrackOrderPage() {
               <div className="card-body">
                 <h2 className="card-title text-2xl">
                   <UserIcon className="size-6 text-primary" />
-                  Register Customer
+                  Galmee Maamiltoota
                 </h2>
                 <form onSubmit={handleRegister} className="space-y-4 mt-4">
                   <input
                     type="text"
                     className="input input-bordered w-full"
-                    placeholder="Full name"
+                    placeholder="Maqaa keessan...."
                     value={registerForm.fullName}
                     onChange={(e) =>
                       setRegisterForm((currentForm) => ({
@@ -129,7 +136,7 @@ function TrackOrderPage() {
                   <input
                     type="tel"
                     className="input input-bordered w-full"
-                    placeholder="Phone number"
+                    placeholder="Lakkoofsa bilbila galcha...."
                     value={registerForm.phoneNumber}
                     onChange={(e) =>
                       setRegisterForm((currentForm) => ({
@@ -142,7 +149,7 @@ function TrackOrderPage() {
                   <input
                     type="password"
                     className="input input-bordered w-full"
-                    placeholder="Password"
+                    placeholder="Password galcha...."
                     value={registerForm.password}
                     onChange={(e) =>
                       setRegisterForm((currentForm) => ({
@@ -153,7 +160,7 @@ function TrackOrderPage() {
                     required
                   />
                   <button type="submit" className="btn btn-primary w-full" disabled={authLoading}>
-                    Register Customer
+                   Galma'a
                   </button>
                 </form>
               </div>
@@ -163,13 +170,13 @@ function TrackOrderPage() {
               <div className="card-body">
                 <h2 className="card-title text-2xl">
                   <PackageSearchIcon className="size-6 text-secondary" />
-                  Sign In With Phone
+                  Seena Lakk.bilbila fi password
                 </h2>
                 <form onSubmit={handleLogin} className="space-y-4 mt-4">
                   <input
                     type="tel"
                     className="input input-bordered w-full"
-                    placeholder="Phone number"
+                    placeholder="Lakkoofsa bilbila...."
                     value={loginPhone}
                     onChange={(e) => setLoginPhone(e.target.value)}
                     required
@@ -177,13 +184,13 @@ function TrackOrderPage() {
                   <input
                     type="password"
                     className="input input-bordered w-full"
-                    placeholder="Password"
+                    placeholder="Password...."
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     required
                   />
                   <button type="submit" className="btn btn-secondary w-full" disabled={authLoading}>
-                    Sign In
+                    Seena
                   </button>
                 </form>
               </div>
@@ -195,18 +202,18 @@ function TrackOrderPage() {
           <div className="grid grid-cols-1 xl:grid-cols-[320px_minmax(0,1fr)] gap-6">
             <div className="card bg-base-100 shadow-lg border border-base-300/60 h-fit">
               <div className="card-body">
-                <h2 className="card-title text-2xl">Customer Profile</h2>
+                <h2 className="card-title text-2xl">Profile maamiltoota</h2>
                 <div className="space-y-3 mt-2">
                   <div className="rounded-2xl bg-base-200 px-4 py-3">
-                    <p className="text-sm text-base-content/60">Full Name</p>
+                    <p className="text-sm text-base-content/60">Maqaa Guutu</p>
                     <p className="font-semibold">{user.full_name}</p>
                   </div>
                   <div className="rounded-2xl bg-base-200 px-4 py-3">
-                    <p className="text-sm text-base-content/60">Phone Number</p>
+                    <p className="text-sm text-base-content/60">Lakk.Bilbila</p>
                     <p className="font-semibold">{user.phone_number}</p>
                   </div>
                   <div className="rounded-2xl bg-base-200 px-4 py-3">
-                    <p className="text-sm text-base-content/60">Role</p>
+                    <p className="text-sm text-base-content/60"></p>Gahe
                     <p className="font-semibold capitalize">{user.role}</p>
                   </div>
                 </div>
@@ -244,6 +251,13 @@ function TrackOrderPage() {
                               ${Number(order.total_amount).toFixed(2)}
                             </p>
                           </div>
+                          <button
+                            onClick={() => handleDeleteOrder(order.id)}
+                            className="btn btn-sm btn-error btn-ghost"
+                            disabled={deletingOrder}
+                          >
+                            <Trash2Icon className="size-4" />
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -279,14 +293,6 @@ function TrackOrderPage() {
           </div>
         )}
 
-        <div className="text-center mt-12 text-sm text-base-content/60">
-          <p>
-            Need help? Contact our{" "}
-            <a href="/contact" className="link link-primary">
-              customer support
-            </a>
-          </p>
-        </div>
 
         {selectedProduct && (
           <div className="modal modal-open">

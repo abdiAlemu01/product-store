@@ -142,3 +142,56 @@ export const getOrders = async (req, res) => {
     });
   }
 };
+
+export const deleteOrder = async (req, res) => {
+  const { id } = req.params;
+
+  if (!req.currentUser) {
+    return res.status(401).json({
+      success: false,
+      message: "Authentication required",
+    });
+  }
+
+  try {
+    // Check if order exists and if user has permission to delete
+    const order = await sql`
+      SELECT customer_id
+      FROM orders
+      WHERE id = ${id}
+      LIMIT 1
+    `;
+
+    if (order.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    // Customers can only delete their own orders, admins can delete any order
+    if (req.currentUser.role === "customer" && order[0].customer_id !== req.currentUser.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You can only delete your own orders",
+      });
+    }
+
+    const deletedOrder = await sql`
+      DELETE FROM orders
+      WHERE id = ${id}
+      RETURNING *
+    `;
+
+    res.status(200).json({
+      success: true,
+      data: deletedOrder[0],
+    });
+  } catch (error) {
+    console.log("Error in deleteOrder", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};

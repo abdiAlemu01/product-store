@@ -14,13 +14,13 @@ function Footer() {
               </div>
               <div>
                 <h3 className="font-bold text-lg">MANA GURGURTAA</h3>
-                <p className="text-sm font-semibold">MEESHALE MANA CHARE</p>
+                <p className="text-sm font-semibold">MEESHALE MANA CHARU TESFAYE</p>
               </div>
             </div>
             <p className="text-sm text-base-content/70 leading-relaxed">
-              Your trusted online shopping destination for quality household products, 
-              electronics, and daily essentials at competitive prices.
+              Mana gurgurta meeshalee mana amaansiisa kara online fi qaaman ni kenina
             </p>
+            
             <div className="flex gap-3">
               {/* TikTok */}
               <a 
@@ -53,32 +53,32 @@ function Footer() {
           <div className="space-y-4">
             <h4 className="font-bold text-lg flex items-center gap-2">
               <span className="text-primary">●</span>
-              Quick Links
+              Kara qunamti safisa
             </h4>
             <ul className="space-y-2">
               <li>
                 <a href="/" className="text-base-content/70 hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-xs">▸</span> Home
-                </a>
-              </li>
-              <li>
-                <a href="/shop" className="text-base-content/70 hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-xs">▸</span> Shop
-                </a>
-              </li>
-              <li>
-                <a href="/categories" className="text-base-content/70 hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-xs">▸</span> Categories
-                </a>
-              </li>
-              <li>
-                <a href="/deals" className="text-base-content/70 hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-xs">▸</span> Deals
+                  <span className="text-xs">▸</span> Mana
                 </a>
               </li>
               <li>
                 <a href="/about" className="text-base-content/70 hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-xs">▸</span> About Us
+                  <span className="text-xs">▸</span> Waay'ee keenya
+                </a>
+              </li>
+              <li>
+                <a href="/services" className="text-base-content/70 hover:text-primary transition-colors flex items-center gap-2">
+                  <span className="text-xs">▸</span> Tajajiiloota keenya
+                </a>
+              </li>
+              <li>
+                <a href="/contact" className="text-base-content/70 hover:text-primary transition-colors flex items-center gap-2">
+                  <span className="text-xs">▸</span> Kaaralee qunamti keenya
+                </a>
+              </li>
+              <li>
+                <a href="/track-order" className="text-base-content/70 hover:text-primary transition-colors flex items-center gap-2">
+                  <span className="text-xs">▸</span> Meesha ajajuuf
                 </a>
               </li>
             </ul>
@@ -88,26 +88,22 @@ function Footer() {
           <div className="space-y-4">
             <h4 className="font-bold text-lg flex items-center gap-2">
               <span className="text-primary">●</span>
-              Our Services
+              Taajajiiloota keenya
             </h4>
             <ul className="space-y-2">
               <li className="text-base-content/70 flex items-center gap-2">
                 <TruckIcon className="size-4 text-primary" />
-                Home Delivery
+                Dhiyeesi hanga mana
               </li>
               <li className="text-base-content/70 flex items-center gap-2">
                 <ShieldCheckIcon className="size-4 text-primary" />
-                Order Tracking
+                Bakka jirtan teesani ajajachu
               </li>
               <li className="text-base-content/70 flex items-center gap-2">
                 <TagIcon className="size-4 text-primary" />
-                Bulk Orders
+                Meesha baay'ee ajajachuuf
               </li>
-              <li>
-                <a href="/services" className="text-base-content/70 hover:text-primary transition-colors flex items-center gap-2">
-                  <span className="text-xs">▸</span> View All Services
-                </a>
-              </li>
+             
             </ul>
           </div>
 
@@ -115,7 +111,7 @@ function Footer() {
           <div className="space-y-4">
             <h4 className="font-bold text-lg flex items-center gap-2">
               <span className="text-primary">●</span>
-              Contact Us
+              Kaaraleen qunamti keenya
             </h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
@@ -123,8 +119,8 @@ function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
                 <div>
-                  <p className="font-medium text-sm">Phone</p>
-                  <p className="text-base-content/70 text-sm">09 11 22 33 44 55</p>
+                  <p className="font-medium text-sm">Lakkoofsa Bilbila</p>
+                  <p className="text-base-content/70 text-sm">09 74 65 80 33</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -133,10 +129,10 @@ function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <div>
-                  <p className="font-medium text-sm">Location</p>
+                  <p className="font-medium text-sm">Iddon argama keenya</p>
                   <p className="text-base-content/70 text-sm leading-relaxed">
-                    Leman, Great Street Road<br/>
-                    Around Agilgilot/Gomista Tagene
+                    Maagala Leeman daandii guudda irra<br/>
+                    Naanawa agilgillooti
                   </p>
                 </div>
               </li>
@@ -152,20 +148,6 @@ function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-base-content/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-base-content/60 text-center md:text-left">
-              © {new Date().getFullYear()} MANA GURGURTAA / MEESHALE MANA CHARE. All rights reserved.
-            </p>
-            <div className="flex flex-wrap justify-center gap-6 text-sm">
-              <a href="/track-order" className="text-base-content/60 hover:text-primary transition-colors">
-                Track Order
-              </a>
-              <a href="/services" className="text-base-content/60 hover:text-primary transition-colors">
-                Services
-              </a>
-              <a href="/contact" className="text-base-content/60 hover:text-primary transition-colors">
-                Support
-              </a>
-            </div>
           </div>
         </div>
       </div>

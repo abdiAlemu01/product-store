@@ -15,6 +15,7 @@ export const useCommerceStore = create((set) => ({
   loadingCustomers: false,
   creatingPromotion: false,
   placingOrder: false,
+  deletingOrder: false,
 
   fetchOrders: async () => {
     set({ loadingOrders: true });
@@ -134,6 +135,30 @@ export const useCommerceStore = create((set) => ({
       throw error;
     } finally {
       set({ loadingCustomers: false });
+    }
+  },
+
+  deleteOrder: async (orderId) => {
+    set({ deletingOrder: true });
+
+    try {
+      const response = await axios.delete(`${BASE_URL}/api/orders/${orderId}`, {
+        headers: getAuthHeaders(),
+      });
+
+      set((state) => ({
+        orders: state.orders.filter((order) => order.id !== orderId),
+        adminOrders: state.adminOrders.filter((order) => order.id !== orderId),
+      }));
+
+      toast.success("Order deleted successfully");
+      return response.data.data;
+    } catch (error) {
+      const message = error.response?.data?.message || "Unable to delete order";
+      toast.error(message);
+      throw error;
+    } finally {
+      set({ deletingOrder: false });
     }
   },
 }));

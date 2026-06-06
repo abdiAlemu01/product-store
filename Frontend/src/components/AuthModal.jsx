@@ -48,11 +48,8 @@ function AuthModal() {
           </div>
           <div>
             <h3 className="text-2xl font-bold">
-              {mode === "login" ? "Sign In" : "Customer Registration"}
+              {mode === "login" ? "Sign IN" : "Kara galmee maamiltoota"}
             </h3>
-            <p className="text-sm text-base-content/70">
-              Admin uses phone sign-in. Customers register with full name and phone number.
-            </p>
           </div>
         </div>
 
@@ -62,14 +59,14 @@ function AuthModal() {
             className={`tab ${mode === "login" ? "tab-active" : ""}`}
             onClick={() => setMode("login")}
           >
-            Sign In
+            SEENA
           </button>
           <button
             type="button"
             className={`tab ${mode === "register" ? "tab-active" : ""}`}
             onClick={() => setMode("register")}
           >
-            Register Customer
+            GALMA'A
           </button>
         </div>
 
@@ -77,12 +74,12 @@ function AuthModal() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Phone Number</span>
+                <span className="label-text font-medium">Lakk.Bilbila</span>
               </label>
               <input
                 type="tel"
                 className="input input-bordered w-full"
-                placeholder="Enter your phone number"
+                placeholder="Lakk.Bilbila galcha...."
                 value={loginPhone}
                 onChange={(e) => setLoginPhone(e.target.value)}
                 required
@@ -96,7 +93,7 @@ function AuthModal() {
               <input
                 type="password"
                 className="input input-bordered w-full"
-                placeholder="Enter your password"
+                placeholder="password galcha...."
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
                 required
@@ -104,19 +101,19 @@ function AuthModal() {
             </div>
 
             <button type="submit" className="btn btn-primary w-full" disabled={loading}>
-              Sign In
+              SEENA
             </button>
           </form>
         ) : (
           <form onSubmit={handleRegister} className="space-y-4">
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Full Name</span>
+                <span className="label-text font-medium">Maqaa keessan</span>
               </label>
               <input
                 type="text"
                 className="input input-bordered w-full"
-                placeholder="Enter full name"
+                placeholder="Maqaa keessan galcha...."
                 value={registerForm.fullName}
                 onChange={(e) =>
                   setRegisterForm((currentForm) => ({
@@ -130,12 +127,12 @@ function AuthModal() {
 
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Phone Number</span>
+                <span className="label-text font-medium">Lakk.Bilbila</span>
               </label>
               <input
                 type="tel"
                 className="input input-bordered w-full"
-                placeholder="Enter phone number"
+                placeholder="Lakk.Bilbila galcha...."
                 value={registerForm.phoneNumber}
                 onChange={(e) =>
                   setRegisterForm((currentForm) => ({
@@ -154,7 +151,7 @@ function AuthModal() {
               <input
                 type="password"
                 className="input input-bordered w-full"
-                placeholder="Enter password"
+                placeholder="password galcha...."
                 value={registerForm.password}
                 onChange={(e) =>
                   setRegisterForm((currentForm) => ({
@@ -167,7 +164,7 @@ function AuthModal() {
             </div>
 
             <button type="submit" className="btn btn-primary w-full" disabled={loading}>
-              Register Customer
+              GALMA'A
             </button>
           </form>
         )}

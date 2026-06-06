@@ -39,10 +39,8 @@ function ContactPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <MailIcon className="size-16 mx-auto text-primary mb-6" />
-          <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-          <p className="text-lg text-base-content/70">
-            Get in touch with us. We'd love to hear from you!
-          </p>
+          <h1 className="text-4xl font-bold mb-4">Kaaralee qunamti</h1>
+         
         </div>
 
         {/* Tabs */}
@@ -52,21 +50,21 @@ function ContactPage() {
             onClick={() => setActiveTab("contact")}
           >
             <PhoneIcon className="size-4 mr-2" />
-            Contact Info
+            Kaaralee qunamti
           </a>
           <a 
             className={`tab tab-lg ${activeTab === "feedback" ? "tab-active" : ""}`}
             onClick={() => setActiveTab("feedback")}
           >
             <MessageSquareIcon className="size-4 mr-2" />
-            Feedback / Complaint
+            Qeeqa / Komi 
           </a>
           <a 
             className={`tab tab-lg ${activeTab === "faq" ? "tab-active" : ""}`}
             onClick={() => setActiveTab("faq")}
           >
             <HelpCircleIcon className="size-4 mr-2" />
-            FAQ
+            Gaafilee irra dedebi gaafataman
           </a>
         </div>
 
@@ -76,25 +74,25 @@ function ContactPage() {
             {/* Contact Form */}
             <div className="card bg-base-100 shadow-lg">
               <div className="card-body">
-                <h2 className="card-title text-2xl mb-4">Send us a message</h2>
+                <h2 className="card-title text-2xl mb-4">Kara erga gababaf</h2>
                 <form className="space-y-4">
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text">Name</span>
+                      <span className="label-text">Maqaa</span>
                     </label>
                     <input
                       type="text"
-                      placeholder="Your name"
+                      placeholder="maqaa keessan...."
                       className="input input-bordered w-full"
                     />
                   </div>
 
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text">Phone number</span>
+                      <span className="label-text">Lakkoofsa bilbila</span>
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       placeholder="09 11 22 33 44 55"
                       className="input input-bordered w-full"
                     />
@@ -102,16 +100,16 @@ function ContactPage() {
 
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text">Message</span>
+                      <span className="label-text">Erga</span>
                     </label>
                     <textarea
-                      placeholder="Your message"
+                      placeholder="Erga keessan...."
                       className="textarea textarea-bordered w-full h-32"
                     />
                   </div>
 
                   <button type="submit" className="btn btn-primary w-full">
-                    Send Message
+                    Erga Ergi
                   </button>
                 </form>
               </div>
@@ -124,8 +122,8 @@ function ContactPage() {
                   <div className="flex items-start gap-4">
                     <PhoneIcon className="size-6 text-primary mt-1" />
                     <div>
-                      <h3 className="font-semibold mb-1">Phone</h3>
-                      <p className="text-base-content/70">09 11 22 33 44 55</p>
+                      <h3 className="font-semibold mb-1">Lakkoofsa bilbila</h3>
+                      <p className="text-base-content/70">09 74  65 80 33</p>
                     </div>
                   </div>
                 </div>
@@ -140,7 +138,7 @@ function ContactPage() {
                     </svg>
                     <div>
                       <h3 className="font-semibold mb-1">TikTok</h3>
-                      <p className="text-base-content/70">@manashoppingguide</p>
+                      <p className="text-base-content/70">chare74</p>
                     </div>
                   </div>
                 </div>
@@ -155,7 +153,7 @@ function ContactPage() {
                     </svg>
                     <div>
                       <h3 className="font-semibold mb-1">Telegram</h3>
-                      <p className="text-base-content/70">@manashoppingguide</p>
+                      <p className="text-base-content/70">@chare74</p>
                     </div>
                   </div>
                 </div>
@@ -166,12 +164,11 @@ function ContactPage() {
                   <div className="flex items-start gap-4">
                     <MapPinIcon className="size-6 text-primary mt-1" />
                     <div>
-                      <h3 className="font-semibold mb-1">Address</h3>
-                      <p className="text-base-content/70">
-                        Leman On the great streat road around Agilgilot/Around Gomista Tagene
-                        <br />
-                        
-                      </p>
+                      <h3 className="font-semibold mb-1">Iddon argama keenya</h3>
+                        <p className="text-base-content/70 text-sm leading-relaxed">
+                    Maagala Leeman daandii guudda irra<br/>
+                    Naanawa agilgillooti
+                  </p>   
                     </div>
                   </div>
                 </div>

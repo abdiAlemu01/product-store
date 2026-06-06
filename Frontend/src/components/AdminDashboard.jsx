@@ -4,6 +4,7 @@ import {
   PhoneCallIcon,
   ShieldCheckIcon,
   ShoppingBagIcon,
+  Trash2Icon,
   UsersIcon,
 } from "lucide-react";
 import { useCommerceStore } from "../store/useCommerceStore";
@@ -24,10 +25,12 @@ function AdminDashboard() {
     lookupCustomerByPhone,
     createPromotion,
     fetchAllCustomers,
+    deleteOrder,
     loadingOrders,
     loadingLookup,
     loadingCustomers,
     creatingPromotion,
+    deletingOrder,
   } = useCommerceStore();
 
   useEffect(() => {
@@ -60,6 +63,12 @@ function AdminDashboard() {
       message: "",
       discountPercent: "",
     });
+  };
+
+  const handleDeleteOrder = async (orderId) => {
+    if (window.confirm("Are you sure you want to delete this order?")) {
+      await deleteOrder(orderId);
+    }
   };
 
   return (
@@ -282,6 +291,13 @@ function AdminDashboard() {
                           Qty {order.quantity} | ${Number(order.total_amount).toFixed(2)}
                         </p>
                       </div>
+                      <button
+                        onClick={() => handleDeleteOrder(order.id)}
+                        className="btn btn-sm btn-error btn-ghost"
+                        disabled={deletingOrder}
+                      >
+                        <Trash2Icon className="size-4" />
+                      </button>
                     </div>
                   </div>
                 ))}
