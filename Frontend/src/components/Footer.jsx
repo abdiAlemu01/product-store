@@ -120,7 +120,7 @@ function Footer() {
                 </svg>
                 <div>
                   <p className="font-medium text-sm">Lakkoofsa Bilbila</p>
-                  <p className="text-base-content/70 text-sm">09 74 65 80 33</p>
+                  <p className="text-base-content/70 text-sm">09 54 74 65 80 33</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
