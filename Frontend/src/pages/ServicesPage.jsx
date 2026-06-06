@@ -15,7 +15,7 @@ function ServicesPage() {
     {
       icon: TruckIcon,
       title: "Dhiyeesi mana",
-      description:"Dhiyeesi safisa fi amanama hanga manati ni kenina. Nuti ajaja keessan kara of eegano qabu fi yeroon ni raawana.",
+      description:"Dhiyeesi safisa fi amanama hanga manati ni kenina. Nuti ajaja keessan kara of eegano qabu fi yeroo isaa eegateen ni raawana.",
       features: [
         
       ]
@@ -23,7 +23,7 @@ function ServicesPage() {
     {
       icon: PackageSearchIcon,
       title: "Ajaja keessan to'achu",
-      description:"Haala mijaata maamiltoni keenya bakka jiran ta'ani ajaja isaani to'achu danda'an waan mijeesineef bakkuma jirtan teesani ajaja keessan to'achu fi hordofu dandeesu",
+      description:"Haala mijaata maamiltoni keenya bakka jiran ta'ani ajaja isaani to'achu akka danda'an waan haala mijeesineef bakkuma jirtan teesani ajaja keessan to'achu fi hordofu dandeesu",
       features: [
         // "Real-time status updates",
         // "SMS and email notifications",
@@ -34,9 +34,9 @@ function ServicesPage() {
     {
       icon: HeadphonesIcon,
       title: "Maamiltoota gargaaru",
-      description:"Nuti maamiltoota keenya guyyaa guutu kallati maraan kan gargaarudha",
+      description:"Mani daldala meeshalee mana charu maamiltoota isaa guyyaa guutu kallati maraan kan gargaaru fi gargaaru irrati kan argamuudha",
       features: [
-        "Taajajila guuyya guutu kenina",
+        "Taajajila guuyya guutu ni kenina",
         "Kaaralee qunaamti garagara qabna", 
         "Gaafi keessanif deebi aaritin keenina",
        
@@ -44,74 +44,68 @@ function ServicesPage() {
     },
     {
       icon: PackageIcon,
-      title: "Ajaaja jilma ",
-      description: "Special pricing and handling for bulk orders. Perfect for businesses and large events.",
+      title: "Ajaaja jilma/Baay'ina",
+      description: "Mani daldala meeshalee mana charu namoota dhuunfanis ta'ee gurmuun meeshalee mana fi kanneen biro baay'inaan barbaadaniif dhiyeesu irrati argama.",
       features: [
-        "Volume discounts",
-        "Priority processing",
-        "Flexible payment terms",
-        "Dedicated account manager"
+        // "Volume discounts",
+        // "Priority processing",
+        // "Flexible payment terms",
+        // "Dedicated account manager"
       ]
     },
     {
       icon: UsersIcon,
-      title: "IDIR / Group Orders",
-      description: "Organize group orders easily with friends, family, or colleagues and share the benefits.",
+      title: "Dhiyeesi meeshalee Afoosha",
+      description: "Mani daldala mana charu Meeshalee guutuu qulqulina isaani eegatan gatii madalawaadhan Afooshalee hawaasa magaala keenya fi naanawa ishee jiraatanif kennu irrati ergamna. Kanaaf haaja mijata kanneen armaan gadi uumne ",
       features: [
-        "Split payment options",
-        "Group discount benefits",
-        "Easy order coordination",
-        "Single delivery location"
+        "Qooqodani kafalti rawaachuu",
+        "Dhiyeesi gatii madalaawa",
+        "Meeshalee guutuu iddoo tokkoti ajajachuu",
+        "Meeshalee guutuu bakka tokkoti dhiyeesu"
       ]
     },
     {
       icon: RefreshCwIcon,
-      title: "Easy Returns & Exchange",
-      description: "Hassle-free returns and exchanges within 30 days. Your satisfaction is our priority.",
+      title: "Salphaati argachu fi Jijirachu",
+      description: "Nuti fedhi maamiltoota keenya  giddu galeessa godhachuun jijiraa meeshalee bilisaan guyyaa 2 keessati taasisna .",
       features: [
-        "30-day return policy",
-        "Free return shipping",
-        "Quick refund processing",
-        "Easy exchange process"
+        "Jijiraa bilisa guuya 2 keessati ni rawana",
+        "Jijiraa meesha meeshaadhan guyyaa 2 keessati ni goona",
+        
       ]
     },
     {
       icon: TrendingUpIcon,
-      title: "Profit Merchant",
-      description: "Join our merchant program and start earning by selling products. Grow your business with our platform.",
+      title: "Daldaltoota Biroof",
+      description: "Mani daldala meeshalee keenya daldaltootaf meeshalee mana fi kanneen biro gati madalaawadhan dhiyeesu irrati kan argamuudha.",
       features: [
-        "Competitive commission rates",
-        "Marketing and promotional support",
-        "Dedicated seller dashboard",
-        "Easy product listing",
-        "Secure payment processing",
-        "Business analytics & insights"
+        // "Competitive commission rates",
+        // "Marketing and promotional support",
+        // "Dedicated seller dashboard",
+        // "Easy product listing",
+        // "Secure payment processing",
+        // "Business analytics & insights"
       ]
     },
     {
       icon: CreditCardIcon,
-      title: "Pay in Small Installments",
-      description: "Shop now and pay later with our flexible installment plans. No hidden fees, simple and transparent.",
+      title: "Kafalti qoqoodinsa ",
+      description: "Feedhi maamitoota dursa kan godhaate hojatu mani daldala meeshalee mana keenya maamiltootni kafalti isaani qoqoodani akka kafalanif haala mijata uume jira. ",
       features: [
-        "0% interest available",
-        "Flexible payment terms",
-        "Instant approval process",
-        "No hidden charges",
-        "Pay in 3, 6, or 12 months",
-        "Manage payments easily"
+        // "0% interest available",
+        // "Flexible payment terms",
+        // "Instant approval process",
+        // "No hidden charges",
+        // "Pay in 3, 6, or 12 months",
+        // "Manage payments easily"
       ]
     },
     {
       icon: GiftIcon,
-      title: "Refer & Earn Rewards",
-      description: "Share the love and earn rewards! Refer friends and family to earn exclusive discounts and cashback.",
+      title: "Beeksisaati badhafama",
+      description: "maati , hiriyootan fi namoota naannoo keessanif oomisha keenya beeksisun badhaafama ta'a.",
       features: [
-        "Earn rewards for each referral",
-        "Get instant cashback",
-        "Unlimited referrals",
-        "Track your referral earnings",
-        "Exclusive bonus rewards",
-        "Redeem rewards easily"
+        
       ]
     }
   ];
@@ -122,7 +116,7 @@ function ServicesPage() {
       <div className="text-center max-w-3xl mx-auto mb-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-6">Tajajila Keenya</h1>
         <p className="text-lg text-base-content/70">
-               Nuti tajajila cima mijata hundagaleessa maamiltoota keenya maraf ni kennina
+               Mani daldala meeshalee mana charu tajajila cima mijata hundagaleessa maamiltoota keenya maraaf kenurati kan argamuudha.
         </p>
       
       </div>
@@ -180,22 +174,6 @@ function ServicesPage() {
             </div>
           );
         })}
-      </div>
-
-      {/* CTA Section */}
-      <div className="text-center mt-16 p-8 bg-base-100 rounded-box shadow-lg max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold mb-4">Need More Information?</h2>
-        <p className="text-base-content/70 mb-6">
-          Our customer support team is always ready to help you with any questions about our services
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <a href="/contact" className="btn btn-primary">
-            Contact Us
-          </a>
-          <a href="/" className="btn btn-outline">
-            Browse Products
-          </a>
-        </div>
       </div>
     </div>
   );
