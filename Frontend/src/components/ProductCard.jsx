@@ -123,11 +123,6 @@ function ProductCard({ product, isAdmin = true, onOrderClick, priority = false }
             </div>
           </div>
 
-          <div className="absolute top-2 sm:top-3 right-2 sm:right-3 z-10">
-            <div className="badge badge-primary font-bold shadow-lg px-2 py-2 sm:px-3 sm:py-3 text-xs sm:text-sm">
-              ${Number(product.price).toFixed(2)}
-            </div>
-          </div>
         </div>
       </figure>
 
@@ -135,12 +130,6 @@ function ProductCard({ product, isAdmin = true, onOrderClick, priority = false }
         <h2 className="card-title text-sm sm:text-base font-bold line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem]">
           {product.name}
         </h2>
-
-        <div className="flex items-center justify-between mt-1 sm:mt-2 lg:hidden">
-          <p className="text-xl sm:text-2xl font-bold text-primary">
-            ${Number(product.price).toFixed(2)}
-          </p>
-        </div>
 
         <div className="divider my-1 sm:my-2" />
 

@@ -1,6 +1,6 @@
 // AddProductModal.jsx
 import { useRef } from "react";
-import { DollarSignIcon, Package2Icon, PlusCircleIcon, XIcon } from "lucide-react";
+import { Package2Icon, PlusCircleIcon, XIcon } from "lucide-react";
 import { useProductStore } from "../store/useProductStore.jsx";
 
 function AddProductModal() {
@@ -69,29 +69,6 @@ function AddProductModal() {
                   className="input input-bordered w-full pl-10 py-3 focus:input-primary transition-colors duration-200"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* PRODUCT PRICE INPUT */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text text-base font-medium">Price ($)</span>
-                <span className="label-text-alt text-error">*Required</span>
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-base-content/50">
-                  <DollarSignIcon className="size-5" />
-                </div>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0.00"
-                  className="input input-bordered w-full pl-10 py-3 focus:input-primary transition-colors duration-200"
-                  value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                   required
                 />
               </div>
@@ -175,7 +152,7 @@ function AddProductModal() {
             <button
               type="submit"
               className="btn btn-primary min-w-[120px]"
-              disabled={!formData.name || !formData.price || !formData.image || loading}
+              disabled={!formData.name || !formData.image || loading}
             >
               {loading ? (
                 <span className="loading loading-spinner loading-sm" />

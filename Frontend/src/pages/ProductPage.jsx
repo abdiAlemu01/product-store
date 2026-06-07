@@ -81,15 +81,10 @@ function ProductPage() {
           
           {/* Product Details Under Image */}
           <div className="p-6 bg-gradient-to-br from-primary/5 to-secondary/5">
-            <h1 className="text-3xl font-bold mb-3">{currentProduct?.name}</h1>
-            <div className="flex items-center gap-4">
-              <div className="badge badge-primary badge-lg px-6 py-4 text-xl font-bold">
-                ${Number(currentProduct?.price).toFixed(2)}
-              </div>
-              <span className="text-sm text-base-content/60">
-                Product ID: {currentProduct?.id}
-              </span>
-            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">{currentProduct?.name}</h1>
+            <span className="text-sm text-base-content/60">
+              Product ID: {currentProduct?.id}
+            </span>
           </div>
         </div>
 

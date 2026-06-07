@@ -16,6 +16,7 @@ export const useCommerceStore = create((set) => ({
   creatingPromotion: false,
   placingOrder: false,
   deletingOrder: false,
+  updatingOrderStatus: false,
 
   fetchOrders: async () => {
     set({ loadingOrders: true });
@@ -34,18 +35,21 @@ export const useCommerceStore = create((set) => ({
     }
   },
 
-  placeOrder: async ({ productId, quantity }) => {
+  placeOrder: async ({ productId, customProductName, quantity = 1 }) => {
     set({ placingOrder: true });
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}/api/orders`,
-        { productId, quantity },
-        { headers: getAuthHeaders() }
-      );
+      const payload = productId
+        ? { productId, quantity }
+        : { customProductName, quantity };
+
+      const response = await axios.post(`${BASE_URL}/api/orders`, payload, {
+        headers: getAuthHeaders(),
+      });
 
       set((state) => ({
         orders: [response.data.data, ...state.orders],
+        adminOrders: [response.data.data, ...state.adminOrders],
       }));
 
       toast.success("Order placed successfully");
@@ -56,6 +60,35 @@ export const useCommerceStore = create((set) => ({
       throw error;
     } finally {
       set({ placingOrder: false });
+    }
+  },
+
+  updateOrderStatus: async ({ orderId, status, rejectionReason }) => {
+    set({ updatingOrderStatus: true });
+
+    try {
+      const response = await axios.patch(
+        `${BASE_URL}/api/orders/${orderId}/status`,
+        { status, rejectionReason },
+        { headers: getAuthHeaders() }
+      );
+
+      const updateOrder = (order) =>
+        order.id === orderId ? { ...order, ...response.data.data } : order;
+
+      set((state) => ({
+        orders: state.orders.map(updateOrder),
+        adminOrders: state.adminOrders.map(updateOrder),
+      }));
+
+      toast.success(`Order ${status.toLowerCase()}`);
+      return response.data.data;
+    } catch (error) {
+      const message = error.response?.data?.message || "Unable to update order";
+      toast.error(message);
+      throw error;
+    } finally {
+      set({ updatingOrderStatus: false });
     }
   },
 

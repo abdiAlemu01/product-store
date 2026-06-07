@@ -33,7 +33,7 @@ export const useProductStore = create((set, get) => ({
       // Create FormData for file upload
       const data = new FormData();
       data.append("name", formData.name);
-      data.append("price", formData.price);
+      data.append("price", formData.price || "0");
       data.append("image", formData.image);
 
       await axios.post(`${BASE_URL}/api/products`, data, {

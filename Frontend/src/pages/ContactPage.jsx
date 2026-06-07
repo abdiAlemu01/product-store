@@ -52,20 +52,8 @@ function ContactPage() {
             <PhoneIcon className="size-4 mr-2" />
             Kaaralee qunamti
           </a>
-          <a 
-            className={`tab tab-lg ${activeTab === "feedback" ? "tab-active" : ""}`}
-            onClick={() => setActiveTab("feedback")}
-          >
-            <MessageSquareIcon className="size-4 mr-2" />
-            Qeeqa / Komi 
-          </a>
-          <a 
-            className={`tab tab-lg ${activeTab === "faq" ? "tab-active" : ""}`}
-            onClick={() => setActiveTab("faq")}
-          >
-            <HelpCircleIcon className="size-4 mr-2" />
-            Gaafilee irra dedebi gaafataman
-          </a>
+          
+          
         </div>
 
         {/* Contact Info Tab */}
@@ -177,119 +165,15 @@ function ContactPage() {
           </div>
         )}
 
-        {/* Feedback / Complaint Tab */}
-        {activeTab === "feedback" && (
-          <div className="max-w-3xl mx-auto">
-            <div className="card bg-base-100 shadow-lg">
-              <div className="card-body">
-                <h2 className="card-title text-2xl mb-4">
-                  <MessageSquareIcon className="size-6 text-primary" />
-                  Share Your Feedback or Submit a Complaint
-                </h2>
-                <p className="text-base-content/70 mb-6">
-                  Your feedback helps us improve. Whether it's a compliment, suggestion, or complaint, 
-                  we value your input and will respond promptly.
-                </p>
+        
+        
 
-                <form className="space-y-4">
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">Type</span>
-                    </label>
-                    <select className="select select-bordered w-full">
-                      <option>Feedback</option>
-                      <option>Complaint</option>
-                      <option>Suggestion</option>
-                      <option>Compliment</option>
-                    </select>
-                  </div>
 
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">Name</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Your name"
-                      className="input input-bordered w-full"
-                    />
-                  </div>
 
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">phone number</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="09 11 22 33 44 55"
-                      className="input input-bordered w-full"
-                    />
-                  </div>
 
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">Send your message</span>
-                    </label>
-                    <textarea
-                      placeholder="Please provide detailed information..."
-                      className="textarea textarea-bordered w-full h-40"
-                    />
-                  </div>
 
-                  <div className="alert alert-info">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span>We aim to respond to all feedback and complaints within 24-48 hours.</span>
-                  </div>
-
-                  <button type="submit" className="btn btn-primary w-full">
-                    Submit Feedback
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* FAQ Tab */}
-        {activeTab === "faq" && (
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <HelpCircleIcon className="size-16 mx-auto text-primary mb-4" />
-              <h2 className="text-3xl font-bold mb-2">Frequently Asked Questions</h2>
-              <p className="text-base-content/70">
-                Find quick answers to common questions
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {faqs.map((faq, index) => (
-                <div key={index} className="collapse collapse-plus bg-base-100 shadow-lg">
-                  <input type="radio" name="faq-accordion" defaultChecked={index === 0} />
-                  <div className="collapse-title text-lg font-medium">
-                    {faq.question}
-                  </div>
-                  <div className="collapse-content">
-                    <p className="text-base-content/70">{faq.answer}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="text-center mt-8 p-6 bg-base-100 rounded-box shadow-lg">
-              <p className="text-base-content/70 mb-4">
-                Didn't find what you're looking for?
-              </p>
-              <button 
-                className="btn btn-primary"
-                onClick={() => setActiveTab("contact")}
-              >
-                Contact Support
-              </button>
-            </div>
-          </div>
-        )}
+      
+        
       </div>
     </div>
   );

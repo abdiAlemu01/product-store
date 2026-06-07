@@ -1,16 +1,19 @@
 // NavBar.jsx
+import { useEffect, useState } from 'react'
 import { Link, useResolvedPath } from 'react-router-dom'
-import { ShoppingBagIcon, MenuIcon, LogInIcon, LogOutIcon, ShieldCheckIcon } from 'lucide-react'
+import { ShoppingBagIcon, MenuIcon, XIcon, LogInIcon, LogOutIcon, ShieldCheckIcon } from 'lucide-react'
 import ThemeSelector from './ThemeSelector'
 import { useProductStore } from '../store/useProductStore';
 import { useAuthStore } from '../store/useAuthStore';
 import AuthModal from './AuthModal';
+import NotificationBell from './NotificationBell';
 
 function NavBar() {
   const products = useProductStore(state => state.products);
   const { user, logout } = useAuthStore();
-  const {pathname}=useResolvedPath()
-  const isHomePage=pathname==='/'
+  const { pathname } = useResolvedPath()
+  const isHomePage = pathname === '/'
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
     { name: 'Mana', path: '/' },
@@ -20,6 +23,14 @@ function NavBar() {
     { name: 'Meesha ajajachuuf', path: '/track-order' },
   ];
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  const handleNavLinkClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <div className='bg-base-100/95 backdrop-blur-md border-b border-base-content/10 sticky top-0 z-50 shadow-sm'>
         <div className='max-w-7xl mx-auto'>
@@ -27,7 +38,7 @@ function NavBar() {
 
               {/* LOGO */}
               <div className="flex-none">
-                <Link to="/" className="hover:opacity-80 transition-opacity">
+                <Link to="/" className="hover:opacity-80 transition-opacity" onClick={handleNavLinkClick}>
                   <div className="flex items-center gap-2 sm:gap-3">
                     <img 
                       src="/aa.jpg" 
@@ -66,31 +77,48 @@ function NavBar() {
                 </ul>
               </div>
 
-              {/* MOBILE MENU BUTTON */}
-              <div className="flex-1 lg:hidden flex justify-end">
-                <div className="dropdown dropdown-end">
-                  <label tabIndex={0} className="btn btn-ghost btn-square">
-                    <MenuIcon className="size-6" />
-                  </label>
-                  <ul tabIndex={0} className="dropdown-content menu p-3 shadow-xl bg-base-100 rounded-box w-64 mt-4 border border-base-300">
-                    {navLinks.map((link) => (
-                      <li key={link.path}>
-                        <Link 
-                          to={link.path}
-                          className={`text-base font-semibold py-3 rounded-lg ${
-                            pathname === link.path ? 'bg-primary text-primary-content' : ''
-                          }`}
-                        >
-                          {link.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {/* MOBILE MENU */}
+              <div className="flex-1 lg:hidden flex justify-end relative">
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-square"
+                  onClick={() => setMobileMenuOpen((open) => !open)}
+                  aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                  aria-expanded={mobileMenuOpen}
+                >
+                  {mobileMenuOpen ? <XIcon className="size-6" /> : <MenuIcon className="size-6" />}
+                </button>
+
+                {mobileMenuOpen && (
+                  <>
+                    <button
+                      type="button"
+                      className="fixed inset-0 z-40 bg-black/20 lg:hidden"
+                      aria-label="Close menu"
+                      onClick={() => setMobileMenuOpen(false)}
+                    />
+                    <ul className="absolute right-0 top-full z-50 menu p-3 shadow-xl bg-base-100 rounded-box w-64 mt-2 border border-base-300">
+                      {navLinks.map((link) => (
+                        <li key={link.path}>
+                          <Link 
+                            to={link.path}
+                            onClick={handleNavLinkClick}
+                            className={`text-base font-semibold py-3 rounded-lg ${
+                              pathname === link.path ? 'bg-primary text-primary-content' : ''
+                            }`}
+                          >
+                            {link.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </div>
 
               {/* RIGHT SECTION */}
               <div className="flex-none flex items-center gap-1.5 sm:gap-3">
+                <NotificationBell />
                 <ThemeSelector />
                 {user ? (
                   <div className="flex items-center gap-2 rounded-full border border-base-300 px-3 py-2 bg-base-100">
@@ -114,7 +142,7 @@ function NavBar() {
                   </button>
                 )}
                 {isHomePage && (
-                  <Link to="/" className="indicator">
+                  <Link to="/" className="indicator" onClick={handleNavLinkClick}>
                     <div className="btn btn-ghost btn-circle hover:bg-primary/10">
                       <ShoppingBagIcon className="size-6" />
                       <span className="badge badge-sm badge-primary indicator-item font-bold">
