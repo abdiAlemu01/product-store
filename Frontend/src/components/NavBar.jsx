@@ -23,22 +23,22 @@ function NavBar() {
   return (
     <div className='bg-base-100/95 backdrop-blur-md border-b border-base-content/10 sticky top-0 z-50 shadow-sm'>
         <div className='max-w-7xl mx-auto'>
-            <div className='navbar px-4 py-3 min-h-[5rem]'>
+            <div className='navbar px-3 sm:px-4 py-2 sm:py-3 min-h-[4rem] sm:min-h-[5rem]'>
 
               {/* LOGO */}
               <div className="flex-none">
                 <Link to="/" className="hover:opacity-80 transition-opacity">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <img 
                       src="/aa.jpg" 
                       alt="Company Logo" 
-                      className="size-14 rounded-full object-cover shadow-md ring-2 ring-primary/20" 
+                      className="size-10 sm:size-12 md:size-14 rounded-full object-cover shadow-md ring-2 ring-primary/20" 
                     />
-                    <div className="flex flex-col">
-                      <span className="font-bold text-lg md:text-xl leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+                    <div className="flex flex-col min-w-0">
+                      <span className="font-bold text-sm sm:text-lg md:text-xl leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary truncate">
                         MANA GURGURTAA
                       </span>
-                      <span className="text-xs md:text-sm text-base-content/70 font-medium">
+                      <span className="hidden sm:block text-xs md:text-sm text-base-content/70 font-medium truncate">
                         MEESHALE MANA CHARU TESFAYE
                       </span>
                     </div>
@@ -90,7 +90,7 @@ function NavBar() {
               </div>
 
               {/* RIGHT SECTION */}
-              <div className="flex-none flex items-center gap-3">
+              <div className="flex-none flex items-center gap-1.5 sm:gap-3">
                 <ThemeSelector />
                 {user ? (
                   <div className="flex items-center gap-2 rounded-full border border-base-300 px-3 py-2 bg-base-100">
@@ -106,11 +106,11 @@ function NavBar() {
                 ) : (
                   <button
                     type="button"
-                    className="btn btn-primary btn-sm"
+                    className="btn btn-primary btn-sm px-2 sm:px-3"
                     onClick={() => document.getElementById("auth_modal")?.showModal()}
                   >
                     <LogInIcon className="size-4" />
-                    SEENA
+                    <span className="hidden sm:inline">SEENA</span>
                   </button>
                 )}
                 {isHomePage && (

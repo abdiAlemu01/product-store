@@ -64,11 +64,11 @@ export const useProductStore = create((set, get) => ({
         } catch (err) {
             if(err.response?.status === 429){
             set({error:"Too many requests. Please try again later."})
-            toast.success("Too many requests. Please try again later.")
+            toast.error("Too many requests. Please try again later.")
 
             }else{
                 set({error:"An error occurred while fetching products."})
-                toast.success("An error occurred while fetching products.")
+                toast.error("An error occurred while fetching products.")
             } 
         }finally{
             set({loading:false})

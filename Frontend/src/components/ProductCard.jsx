@@ -4,35 +4,42 @@ import {
   ShoppingCartIcon,
   EyeIcon,
   CreditCardIcon,
+  ImageOffIcon,
+  RefreshCwIcon,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
 import { useState } from "react";
 
-function ProductCard({ product, isAdmin = true, onOrderClick }) {
+function ProductCard({ product, isAdmin = true, onOrderClick, priority = false }) {
   const { deleteProduct } = useProductStore();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
-  
-  // Construct full image URL
-  const getImageUrl = () => {
-    if (!product.image) return '';
+  const [retryKey, setRetryKey] = useState(0);
 
-    // If it's already a full URL (e.g. Cloudinary https://...), use it directly
-    if (product.image.startsWith('http://') || product.image.startsWith('https://')) {
+  const getImageUrl = () => {
+    if (!product.image) return "";
+
+    if (product.image.startsWith("http://") || product.image.startsWith("https://")) {
       return product.image;
     }
 
-    // Fallback: legacy /uploads/ relative path — prepend the API base URL from env
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
     return `${baseUrl}${product.image}`;
   };
-  
-  const handleImageError = (e) => {
-    console.error('Image failed to load:', getImageUrl());
+
+  const hasImage = Boolean(product.image);
+  const imageUrl = getImageUrl();
+
+  const handleImageError = () => {
     setImageError(true);
-    // Placeholder image with gradient
-    e.target.style.display = 'none';
+    setImageLoaded(false);
+  };
+
+  const handleImageRetry = () => {
+    setImageError(false);
+    setImageLoaded(false);
+    setRetryKey((key) => key + 1);
   };
 
   const handleOrder = () => {
@@ -40,44 +47,64 @@ function ProductCard({ product, isAdmin = true, onOrderClick }) {
       onOrderClick(product);
     }
   };
-  
+
+  const showLoadingState = hasImage && !imageLoaded && !imageError;
+  const showMissingImage = !hasImage || imageError;
+
   return (
     <div className="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-base-300/50 overflow-hidden group">
-      {/* PRODUCT IMAGE */}
       <figure className="relative overflow-hidden bg-base-200">
         <div className="aspect-square w-full relative">
-          {/* Loading Skeleton */}
-          {!imageLoaded && !imageError && (
-            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-base-300 via-base-200 to-base-300" />
+          {showLoadingState && (
+            <>
+              <div className="absolute inset-0 image-shimmer" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-base-200/80">
+                <div className="loading loading-spinner loading-md text-primary" />
+                <span className="text-xs text-base-content/60 font-medium">Loading image...</span>
+              </div>
+            </>
           )}
-          
-          {/* Image Error Placeholder */}
-          {imageError && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
-              <ShoppingCartIcon className="size-20 text-base-content/30 mb-2" />
-              <p className="text-sm text-base-content/50 font-medium">Product Image</p>
+
+          {showMissingImage && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-primary/10 to-secondary/10 px-4 text-center">
+              <ImageOffIcon className="size-10 sm:size-12 text-base-content/30" aria-hidden="true" />
+              <p className="text-xs sm:text-sm text-base-content/60 font-medium">
+                {imageError ? "Image couldn't load" : "No image available"}
+              </p>
+              {imageError && hasImage && (
+                <button
+                  type="button"
+                  className="btn btn-xs btn-ghost gap-1 mt-1"
+                  onClick={handleImageRetry}
+                  aria-label={`Retry loading image for ${product.name}`}
+                >
+                  <RefreshCwIcon className="size-3" />
+                  Tap to retry
+                </button>
+              )}
             </div>
           )}
-          
-          {/* Actual Image */}
-          {!imageError && (
+
+          {hasImage && !imageError && (
             <img
-              src={getImageUrl()}
+              key={retryKey}
+              src={imageUrl}
               alt={product.name}
-              className={`absolute top-0 left-0 w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500 ${
-                imageLoaded ? 'opacity-100' : 'opacity-0'
+              className={`absolute top-0 left-0 w-full h-full object-contain p-2 sm:p-3 transition-all duration-500 group-hover:scale-105 ${
+                imageLoaded ? "opacity-100" : "opacity-0"
               }`}
               onLoad={() => setImageLoaded(true)}
               onError={handleImageError}
-              loading="lazy"
+              loading={priority ? "eager" : "lazy"}
+              fetchPriority={priority ? "high" : "auto"}
+              decoding="async"
             />
           )}
-          
-          {/* Hover Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden lg:block">
             <div className="absolute bottom-4 left-4 right-4 flex flex-col gap-2">
-              <Link 
-                to={`/product/${product.id}`} 
+              <Link
+                to={`/product/${product.id}`}
                 className="btn btn-sm btn-primary w-full gap-2 shadow-xl"
               >
                 <EyeIcon className="size-4" />
@@ -95,36 +122,33 @@ function ProductCard({ product, isAdmin = true, onOrderClick }) {
               )}
             </div>
           </div>
-          
-          {/* Price Badge */}
-          <div className="absolute top-3 right-3 z-10">
-            <div className="badge badge-lg badge-primary font-bold shadow-xl px-4 py-3">
+
+          <div className="absolute top-2 sm:top-3 right-2 sm:right-3 z-10">
+            <div className="badge badge-primary font-bold shadow-lg px-2 py-2 sm:px-3 sm:py-3 text-xs sm:text-sm">
               ${Number(product.price).toFixed(2)}
             </div>
           </div>
         </div>
       </figure>
 
-      <div className="card-body p-4">
-        {/* PRODUCT INFO */}
-        <h2 className="card-title text-base font-bold line-clamp-2 min-h-[3rem]">
+      <div className="card-body p-3 sm:p-4">
+        <h2 className="card-title text-sm sm:text-base font-bold line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem]">
           {product.name}
         </h2>
-        
-        {/* Price - Mobile/Tablet */}
-        <div className="flex items-center justify-between mt-2 lg:hidden">
-          <p className="text-2xl font-bold text-primary">
+
+        <div className="flex items-center justify-between mt-1 sm:mt-2 lg:hidden">
+          <p className="text-xl sm:text-2xl font-bold text-primary">
             ${Number(product.price).toFixed(2)}
           </p>
         </div>
 
-        {/* CARD ACTIONS */}
-        <div className="divider my-2"></div>
+        <div className="divider my-1 sm:my-2" />
+
         <div className="flex gap-2">
           {isAdmin ? (
             <>
-              <Link 
-                to={`/product/${product.id}`} 
+              <Link
+                to={`/product/${product.id}`}
                 className="btn btn-sm btn-info btn-outline flex-1 gap-1"
                 title="Edit Product"
               >
@@ -147,14 +171,23 @@ function ProductCard({ product, isAdmin = true, onOrderClick }) {
               </button>
             </>
           ) : (
-            <button
-              type="button"
-              onClick={handleOrder}
-              className="btn btn-sm btn-primary flex-1 gap-2"
-            >
-              <ShoppingCartIcon className="size-4" />
-              Order Product
-            </button>
+            <>
+              <Link
+                to={`/product/${product.id}`}
+                className="btn btn-sm btn-outline flex-1 gap-1 lg:hidden"
+              >
+                <EyeIcon className="size-4" />
+                <span className="hidden sm:inline">View</span>
+              </Link>
+              <button
+                type="button"
+                onClick={handleOrder}
+                className="btn btn-sm btn-primary flex-1 gap-2"
+              >
+                <ShoppingCartIcon className="size-4" />
+                Order
+              </button>
+            </>
           )}
         </div>
       </div>

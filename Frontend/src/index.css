@@ -4,3 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .image-shimmer {
+    @apply bg-gradient-to-r from-base-300 via-base-200 to-base-300;
+    background-size: 200% 100%;
+    animation: image-shimmer 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes image-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
