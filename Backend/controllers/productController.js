@@ -55,8 +55,11 @@ export const createProduct = async (req, res) => {
 
     res.status(200).json({ success: true, data: newProduct[0] });
   } catch (error) {
-    console.log("Error in create product function", error);
-    res.status(500).json({ success: false, message: "Server error happened" });
+    console.error("Error in create product function:", error?.message || error);
+    if (error?.http_code) {
+      console.error("Cloudinary HTTP error:", error.http_code, error.message);
+    }
+    res.status(500).json({ success: false, message: error?.message || "Server error happened" });
   }
 };
 export const getProduct =async(req,res)=>{
