@@ -30,8 +30,8 @@ export const createProduct = async (req, res) => {
   }
 
   try {
-    // Create image URL path
-    const imageUrl = `/uploads/${req.file.filename}`;
+    // Cloudinary returns the full CDN URL in req.file.path
+    const imageUrl = req.file.path;
 
     const newProduct = await sql`
       INSERT INTO products (name, price, image)
@@ -90,9 +90,9 @@ export const updateProduct = async (req, res) => {
 
     let image;
 
-    // If a new file was uploaded, use it
+    // If a new file was uploaded, Cloudinary returns full CDN URL in req.file.path
     if (req.file) {
-      image = `/uploads/${req.file.filename}`;
+      image = req.file.path;
     } else {
       // Keep the existing image if no new file uploaded
       const existingProduct = await sql`

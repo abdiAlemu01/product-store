@@ -3,6 +3,16 @@ import { useProductStore } from "../store/useProductStore";
 import { useEffect } from "react";
 import { ArrowLeftIcon, SaveIcon, Trash2Icon } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
+
+// Helper: returns a usable image URL whether it's a Cloudinary full URL or a legacy relative path
+const resolveImageUrl = (imageField) => {
+  if (!imageField) return '';
+  if (typeof imageField !== 'string') return URL.createObjectURL(imageField);
+  if (imageField.startsWith('http://') || imageField.startsWith('https://')) return imageField;
+  // Legacy relative path from local /uploads/
+  const base = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  return `${base}${imageField}`;
+};
 function ProductPage() {
   const {
     currentProduct,
@@ -58,7 +68,7 @@ function ProductPage() {
         <div className="bg-base-100 rounded-2xl overflow-hidden shadow-2xl border-2 border-base-300/50">
           <div className="aspect-square w-full relative bg-base-200">
             <img
-              src={currentProduct?.image ? `http://localhost:3000${currentProduct.image}` : ''}
+              src={resolveImageUrl(currentProduct?.image)}
               alt={currentProduct?.name}
               className="absolute inset-0 w-full h-full object-contain p-4"
               onError={(e) => {
@@ -149,11 +159,7 @@ function ProductPage() {
                       <div className="relative w-full rounded-lg overflow-hidden border-2 border-primary/30 bg-base-200 shadow-lg">
                         <div className="aspect-square w-full relative">
                           <img
-                            src={
-                              typeof formData.image === "string"
-                                ? `http://localhost:3000${formData.image}`
-                                : URL.createObjectURL(formData.image)
-                            }
+                            src={resolveImageUrl(formData.image)}
                             alt="Preview"
                             className="absolute inset-0 w-full h-full object-contain p-2"
                             onError={(e) => {

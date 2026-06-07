@@ -4,8 +4,6 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
 import bcrypt from "bcrypt";
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -15,48 +13,40 @@ import { sql } from "./config/db.js";
 import { aj } from "./lib/arcjet.js";
 import { attachCurrentUser } from "./middleware/authMiddleware.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 dotenv.config();
 const app = express();
 app.set("trust proxy", true);
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
-
 const allowedOrigins = [
-  "http://localhost:5173", 
-  "https://product-store-pied.vercel.app" 
+  "http://localhost:5173",
+  "https://product-store-pied.vercel.app",
 ];
 
-app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
-
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 app.use(
   helmet({
     contentSecurityPolicy: false,
     crossOriginResourcePolicy: false, // Allow images to be loaded cross-origin
   })
-); 
-app.use(morgan("dev")); 
+);
+app.use(morgan("dev"));
 
-// Serve static files from uploads directory BEFORE Arcjet middleware
-app.use("/uploads", express.static(path.join(__dirname, "uploads"))); 
+// Images are now stored on Cloudinary CDN — no local /uploads/ static serving needed
 
+// Arcjet rate-limiting / bot-protection middleware
 app.use(async (req, res, next) => {
-  // Skip Arcjet for static file requests
-  if (req.path.startsWith('/uploads')) {
-    return next();
-  }
-  
   try {
     const decision = await aj.protect(req, {
-      requested: 1, 
+      requested: 1,
     });
 
     if (decision.isDenied()) {
@@ -69,7 +59,12 @@ app.use(async (req, res, next) => {
       }
       return;
     }
-    if (decision.results.some((result) => result.reason.isBot() && result.reason.isSpoofed())) {
+
+    if (
+      decision.results.some(
+        (result) => result.reason.isBot() && result.reason.isSpoofed()
+      )
+    ) {
       res.status(403).json({ error: "Spoofed bot detected" });
       return;
     }
@@ -80,21 +75,29 @@ app.use(async (req, res, next) => {
     next(error);
   }
 });
+
 app.use(attachCurrentUser);
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/customers", customerRoutes);
+
 async function initDB() {
   try {
     await sql`
       CREATE TABLE IF NOT EXISTS products (
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
-        image VARCHAR(255),
+        image VARCHAR(500),
         price DECIMAL(10, 2) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
+    `;
+
+    // Expand image column for existing databases (Cloudinary URLs can be long)
+    await sql`
+      ALTER TABLE products
+      ALTER COLUMN image TYPE VARCHAR(500)
     `;
 
     await sql`
@@ -243,21 +246,16 @@ async function initDB() {
       VALUES (${adminUsername}, ${adminName}, ${adminPhone}, ${hashedAdminPassword}, 'admin')
       ON CONFLICT (phone_number) DO NOTHING
     `;
-    
+
     console.log("Database initialized successfully");
     console.log(`Default admin phone: ${adminPhone}`);
   } catch (error) {
     console.log("Error initDB", error);
   }
 }
+
 initDB().then(() => {
   app.listen(PORT, () => {
     console.log("Server is running on port " + PORT);
   });
 });
-
-
-
-
-
-

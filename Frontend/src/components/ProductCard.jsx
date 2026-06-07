@@ -18,8 +18,13 @@ function ProductCard({ product, isAdmin = true, onOrderClick }) {
   const getImageUrl = () => {
     if (!product.image) return '';
 
-    // If it's a relative path, prepend the API URL
-    const baseUrl = 'http://localhost:3000';
+    // If it's already a full URL (e.g. Cloudinary https://...), use it directly
+    if (product.image.startsWith('http://') || product.image.startsWith('https://')) {
+      return product.image;
+    }
+
+    // Fallback: legacy /uploads/ relative path — prepend the API base URL from env
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
     return `${baseUrl}${product.image}`;
   };
   

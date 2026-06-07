@@ -1,5 +1,5 @@
 // AddProductModal.jsx
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { DollarSignIcon, Package2Icon, PlusCircleIcon, XIcon } from "lucide-react";
 import { useProductStore } from "../store/useProductStore.jsx";
 
@@ -10,36 +10,34 @@ function AddProductModal() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file size (5MB max)
       if (file.size > 5 * 1024 * 1024) {
-        alert('Image size should be less than 5MB');
-        e.target.value = '';
+        alert("Image size should be less than 5MB");
+        e.target.value = "";
         return;
       }
       setFormData({ ...formData, image: file });
     }
   };
 
-  const handleClose = () => {
-    // Clear form and file input when closing
+  const closeModal = () => {
     resetForm();
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
+    document.getElementById("add_product_modal").close();
   };
 
   return (
     <dialog id="add_product_modal" className="modal">
       <div className="modal-box max-w-2xl">
-        {/* CLOSE BUTTON */}
-        <form method="dialog">
-          <button 
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            onClick={handleClose}
-          >
-            <XIcon className="size-4" />
-          </button>
-        </form>
+        {/* CLOSE BUTTON — plain button, no nested <form> */}
+        <button
+          type="button"
+          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          onClick={closeModal}
+        >
+          <XIcon className="size-4" />
+        </button>
 
         {/* MODAL HEADER */}
         <div className="flex items-center gap-3 mb-6">
@@ -52,6 +50,7 @@ function AddProductModal() {
           </div>
         </div>
 
+        {/* SINGLE FORM — no nested forms */}
         <form onSubmit={addProduct} className="space-y-6">
           <div className="grid gap-6">
             {/* PRODUCT NAME INPUT */}
@@ -119,17 +118,21 @@ function AddProductModal() {
                   </svg>
                   Supported: JPG, PNG, WEBP, GIF (Max 5MB)
                 </p>
-                
+
                 {/* Image Preview */}
                 {formData.image && (
                   <div className="relative animate-fadeIn">
                     <div className="aspect-square w-full rounded-lg overflow-hidden border-2 border-primary/30 shadow-xl bg-base-200">
                       <img
-                        src={typeof formData.image === 'string' ? formData.image : URL.createObjectURL(formData.image)}
+                        src={
+                          typeof formData.image === "string"
+                            ? formData.image
+                            : URL.createObjectURL(formData.image)
+                        }
                         alt="Preview"
                         className="w-full h-full object-contain p-4"
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/600x600?text=Image+Preview';
+                          e.target.src = "https://via.placeholder.com/600x600?text=Image+Preview";
                         }}
                       />
                     </div>
@@ -146,9 +149,9 @@ function AddProductModal() {
                       type="button"
                       className="absolute top-2 left-2 btn btn-sm btn-error btn-circle z-10 shadow-lg"
                       onClick={() => {
-                        setFormData({ ...formData, image: '' });
+                        setFormData({ ...formData, image: "" });
                         if (fileInputRef.current) {
-                          fileInputRef.current.value = '';
+                          fileInputRef.current.value = "";
                         }
                       }}
                     >
@@ -162,15 +165,13 @@ function AddProductModal() {
 
           {/* MODAL ACTIONS */}
           <div className="modal-action">
-            <form method="dialog">
-              <button 
-                type="button"
-                className="btn btn-ghost"
-                onClick={handleClose}
-              >
-                Cancel
-              </button>
-            </form>
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               className="btn btn-primary min-w-[120px]"
@@ -190,10 +191,9 @@ function AddProductModal() {
       </div>
 
       {/* BACKDROP */}
-      <form method="dialog" className="modal-backdrop">
-        <button onClick={handleClose}>close</button>
-      </form>
+      <div className="modal-backdrop" onClick={closeModal} />
     </dialog>
   );
 }
+
 export default AddProductModal;
