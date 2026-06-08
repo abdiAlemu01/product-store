@@ -14,7 +14,7 @@ function AboutPage() {
     {
       icon: BookOpenIcon,
       title: "SEENA ",
-       description:"Nuti daldala kana kan eegaleef meeshaleen qulqulina qaban haawasa magaala keenya fi naanawa  baadiya ishee meeshale qulqulu gati madalaawan bakka jirani fi qaaman nu bira dhufani akk argatanifi.",
+       description:"Nuti mani daldala meeshalee mana charu daldala  kana kan eegaleef meeshaleen qulqulina qaban haawasa magaala keenya fi naanawa  baadiya ishee meeshale qulqulu gati madalaawan bakka jirani fi qaaman nu bira dhufani akk argatanifidha.",
       color: "text-blue-500"
     },
     {
@@ -34,7 +34,9 @@ function AboutPage() {
         "Maamiltoota keenyaf dursa waan keninuuf",
         "Feedhi maamiltoota keeny waan eegnuuf",
         "Bakka jirtan teesani ajajachu waan dandeesanif ",
-        "Bakka jirtaniti isiif waan dhiyeesinuuf"
+        "Bakka jirtaniti isiif waan dhiyeesinuuf",
+        "DHiyeesi meeshale jilma/baay'ina waan goonuf",
+        "Afooshaf dhiyeesi meesha guutu  bakka tokkoti waan goonuf"
 
      
       ],
@@ -54,7 +56,7 @@ function AboutPage() {
       features: [
         "daldaltoota naannoo jajabeesu",
         "daldaltoota naannoo beeksisu",
-        "daldaltootaf xixiqqoof carra hoji uumuu"
+        "daldaltootaf meeshalee dhiyeesun carra hoji uumuu"
       ],
       color: "text-teal-500"
     },
@@ -62,7 +64,7 @@ function AboutPage() {
       icon: TruckIcon,
       title: "Dhiyeesi keenya",
  
-      description:"Nuti dhiyeesi ajaja safisan, of eeganoon fi amanamuman ni keenina",
+      description:"Nuti dhiyeesi ajaja baay'inaanis ta'ee xiqqeenyan safisan, of eeganoon fi amanamuman maamiltoota keenya maraaf ni keenina.",
       color: "text-indigo-500"
     },
     {
@@ -78,7 +80,7 @@ function AboutPage() {
     {
       icon: GiftIcon,
       title: "Amanamuumma fi badhaasa",
-            description:"Maamiltoota keenya yeroo maraaf tajajila adda, discounts fi badhaasa ni goona ",
+            description:"Maamiltoota keenya yeroo maraaf tajajila adda, discounts fi badhaasa yeroo garaagarati ni goona. ",
       color: "text-yellow-500"
     }
   ];
@@ -89,8 +91,12 @@ function AboutPage() {
       <div className="text-center max-w-3xl mx-auto mb-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-6">WAAY'EE KEENYA</h1>
         <p className="text-lg text-base-content/70">
-          Kaayoon mana gurgurta meeshalee mana CHARE ,Ergamni fi kutannoon is haawasa isaa meeshalee mana fi kanneen biro gati madalaawa taa'een dhiyeesufidha.
+          Kaayoon mana gurgurta meeshalee mana Charu ,Ergamni fi kutannoon is hawaasa magaala leemani fi naanawa baadiyaa ishee meeshalee mana fi kanneen biro gati madalaawa taa'een dhiyeesufidha.
         </p>
+
+        <br/>
+        <p className="text-lg text-base-content/70" >Tajajila isaa kananis hawaasa magaala leemani fi naanawa baadiyaa isheetin fudhatama guddaa kan argateedha.</p>
+
         
       </div>
 

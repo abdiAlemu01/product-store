@@ -67,31 +67,69 @@ function HomePage() {
   );
 
   return (
+
+    
     <div className="min-h-screen bg-base-200">
       <div className="bg-gradient-to-r from-primary to-secondary text-primary-content">
         <div className="max-w-7xl mx-auto px-4 py-8 sm:py-10 md:py-16">
           <div className="text-center space-y-3 sm:space-y-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-balance leading-tight">
-              MANA GURGURTAA
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl font-medium opacity-90 text-balance max-w-2xl mx-auto">
-              MEESHALEE MANA CHARU TESFAYE
-            </p>
+           <div className="space-y-4 text-center">
+ <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] text-white">
+  MANA GURGURTAA
+  <br />
+  <span className="text-white/80 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold">
+    MEESHALEE MANA CHARU TESFAYE
+  </span>
+</h1>
 
-            <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 pt-4 sm:pt-6">
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm md:text-base bg-primary-content/10 rounded-lg px-3 py-2 sm:bg-transparent sm:px-0 sm:py-0">
-                <TruckIcon className="size-4 sm:size-5 shrink-0" />
-                <span className="text-balance">Dhiyeesi safisan kenina</span>
-              </div>
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm md:text-base bg-primary-content/10 rounded-lg px-3 py-2 sm:bg-transparent sm:px-0 sm:py-0">
-                <ShieldCheckIcon className="size-4 sm:size-5 shrink-0" />
-                <span className="text-balance">Itti gaafatamuummaan isaa kan mirkana&apos;ee</span>
-              </div>
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm md:text-base bg-primary-content/10 rounded-lg px-3 py-2 sm:bg-transparent sm:px-0 sm:py-0">
-                <TagIcon className="size-4 sm:size-5 shrink-0" />
-                <span className="text-balance">Oomisha keenya gara weebsite, Tiktok, Telegram fi Message ni beeksisna</span>
-              </div>
-            </div>
+  <div className="flex items-center justify-center gap-3">
+    <div className="h-px w-10 sm:w-16 bg-primary/40"></div>
+
+    
+    <div className="h-px w-10 sm:w-16 bg-primary/40"></div>
+    </div>
+    </div>
+
+
+
+
+          
+
+          <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 pt-6">
+
+  <div className="group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-all duration-300">
+    <div className="flex items-center justify-center size-10 rounded-full bg-white/10">
+      <TruckIcon className="size-5 text-white" />
+    </div>
+    <span className="font-medium text-sm md:text-base text-white">
+      Dhiyeessa Safisan kenina
+    </span>
+  </div>
+
+  <div className="group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-all duration-300">
+    <div className="flex items-center justify-center size-10 rounded-full bg-white/10">
+      <ShieldCheckIcon className="size-5 text-white" />
+    </div>
+    <span className="font-medium text-sm md:text-base text-white">
+      Amanamummaan kan Mirkanaa'e
+    </span>
+  </div>
+
+  <div className="group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-all duration-300">
+    <div className="flex items-center justify-center size-10 rounded-full bg-white/10">
+      <TagIcon className="size-5 text-white" />
+    </div>
+    <span className="font-medium text-sm md:text-base text-white">
+      Meehhalee keenya Website, TikTok fi Telegram irrati isin beeksisna
+    </span>
+  </div>
+
+</div>
+
+
+
+
+            
           </div>
         </div>
       </div>
@@ -101,46 +139,18 @@ function HomePage() {
 
         <div className="bg-base-100 rounded-box shadow-lg p-3 sm:p-4 mb-6 sm:mb-8">
           <div className="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-center">
-            <div className="flex-1 w-full">
-              <div className="relative">
-                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 sm:size-5 text-base-content/50 pointer-events-none" />
-                <input
-                  type="text"
-                  placeholder="Meesha barbaaduf..."
-                  className="input input-bordered w-full pl-9 sm:pl-10 text-sm sm:text-base"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  aria-label="Search products"
-                />
-              </div>
-            </div>
-
-            <div className="flex gap-2 items-center w-full md:w-auto">
-              <FilterIcon className="size-4 sm:size-5 text-base-content/70 shrink-0" aria-hidden="true" />
-              <select
-                className="select select-bordered w-full md:w-auto text-sm sm:text-base"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                aria-label="Sort products"
-              >
-                <option value="newest">Newest First</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="name">Name: A-Z</option>
-              </select>
-            </div>
 
             {isAdmin && (
               <button className="btn btn-primary w-full md:w-auto" onClick={handleAddProductClick}>
                 <PlusCircleIcon className="size-5" />
-                <span className="ml-2">Add Product</span>
+                <span className="ml-2">meeshalee it dabali</span>
               </button>
             )}
           </div>
 
           {searchTerm && (
             <div className="mt-3 text-sm text-base-content/70">
-              Found {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
+              meeshalee {filteredProducts.length} ergaman{filteredProducts.length !== 1 ? "s" : ""}
             </div>
           )}
         </div>
@@ -154,9 +164,9 @@ function HomePage() {
           >
             <AlertCircleIcon className="size-5 sm:size-6 shrink-0" aria-hidden="true" />
             <div className="flex-1 text-left">
-              <p className="font-semibold text-sm sm:text-base">We couldn&apos;t load the products</p>
+              <p className="font-semibold text-sm sm:text-base">Meeshaleen isiniif mul'achuu yoo didan</p>
               <p className="text-sm opacity-90 mt-0.5">{error}</p>
-              <p className="text-xs opacity-75 mt-1">Please check your internet connection and try again.</p>
+              <p className="text-xs opacity-75 mt-1">netwoorki keessan mirkaaneefadhati irra deebi'a yaala.</p>
             </div>
             <button
               type="button"
@@ -165,7 +175,7 @@ function HomePage() {
               disabled={loading}
             >
               <RefreshCwIcon className={`size-4 ${loading ? "animate-spin" : ""}`} />
-              Try Again
+              irra deebi'a yaala
             </button>
           </div>
         )}
@@ -194,7 +204,7 @@ function HomePage() {
           <div className="space-y-4 sm:space-y-6">
             <div className="flex items-center justify-center sm:justify-start gap-3">
               <div className="loading loading-spinner loading-md text-primary" />
-              <p className="text-base-content/70 text-sm sm:text-base">Loading products...</p>
+              <p className="text-base-content/70 text-sm sm:text-base">meeshan mul'achuuuf jira...</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {Array.from({ length: 4 }).map((_, index) => (
@@ -205,11 +215,11 @@ function HomePage() {
         ) : (
           filteredProducts.length > 0 && (
             <>
-              <div className="flex justify-between items-center mb-4 sm:mb-6">
+              {/* <div className="flex justify-between items-center mb-4 sm:mb-6">
                 <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
-                  Our Products {products.length > 0 && `(${products.length})`}
+                  Meeshalee keenya mana daldala charu keessati argatan {products.length > 0 && `(${products.length})`}
                 </h2>
-              </div>
+              </div> */}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 {filteredProducts.map((product, index) => (

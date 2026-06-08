@@ -5,13 +5,20 @@ import { getAuthHeaders } from "../lib/session";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const useChatStore = create((set, get) => ({
+const initialState = {
   conversations: [],
   messages: [],
   activeConversationId: null,
+  activeCustomerId: null,
   loadingConversations: false,
   loadingMessages: false,
   sending: false,
+};
+
+export const useChatStore = create((set, get) => ({
+  ...initialState,
+
+  resetChat: () => set({ ...initialState }),
 
   fetchConversations: async () => {
     set({ loadingConversations: true });
@@ -22,9 +29,11 @@ export const useChatStore = create((set, get) => ({
       const conversations = response.data.data;
       set({ conversations });
 
-      if (conversations.length === 1 && !get().activeConversationId) {
-        set({ activeConversationId: conversations[0].id });
-        get().fetchMessages(conversations[0].id);
+      const { activeConversationId } = get();
+      const isCustomerView = conversations.length === 1;
+
+      if (isCustomerView && !activeConversationId) {
+        await get().selectConversation(conversations[0].id);
       }
     } catch {
       // silent
@@ -33,8 +42,31 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-  selectConversation: async (conversationId) => {
-    set({ activeConversationId: conversationId });
+  openConversationForCustomer: async (customerId) => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/chat/conversations/open`,
+        { customerId },
+        { headers: getAuthHeaders() }
+      );
+
+      const conversation = response.data.data;
+      await get().fetchConversations();
+      await get().selectConversation(conversation.id, customerId);
+      return conversation;
+    } catch (error) {
+      const message = error.response?.data?.message || "Haasaa banuu hin dandeenye";
+      toast.error(message);
+      throw error;
+    }
+  },
+
+  selectConversation: async (conversationId, customerId = null) => {
+    set({
+      activeConversationId: conversationId,
+      activeCustomerId: customerId,
+      messages: [],
+    });
     await get().fetchMessages(conversationId);
   },
 
@@ -46,9 +78,13 @@ export const useChatStore = create((set, get) => ({
         `${BASE_URL}/api/chat/conversations/${conversationId}/messages`,
         { headers: getAuthHeaders() }
       );
-      set({ messages: response.data.data });
+
+      const { activeConversationId } = get();
+      if (activeConversationId === conversationId) {
+        set({ messages: response.data.data });
+      }
     } catch {
-      toast.error("Unable to load messages");
+      toast.error("Ergaa fe'uu hin dandeenye");
     } finally {
       set({ loadingMessages: false });
     }
@@ -70,7 +106,7 @@ export const useChatStore = create((set, get) => ({
       }));
       return response.data.data;
     } catch (error) {
-      const message = error.response?.data?.message || "Unable to send message";
+      const message = error.response?.data?.message || "Ergaa erguu hin dandeenye";
       toast.error(message);
       throw error;
     } finally {

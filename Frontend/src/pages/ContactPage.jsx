@@ -1,8 +1,35 @@
 import { MailIcon, PhoneIcon, MapPinIcon, MessageSquareIcon, HelpCircleIcon } from "lucide-react";
 import { useState } from "react";
+import axios from "axios";
+
+const BASE_URL = 'http://localhost:3000';
 
 function ContactPage() {
   const [activeTab, setActiveTab] = useState("contact");
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      await axios.post(`${BASE_URL}/api/messages`, formData);
+      setSubmitSuccess(true);
+      setFormData({ name: "", phone: "", message: "" });
+      setTimeout(() => setSubmitSuccess(false), 3000);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      alert("Erga ergaa fayyadamaa jiru. Fayyadamiin deebiin yaadachi.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const faqs = [
     {
@@ -63,15 +90,23 @@ function ContactPage() {
             <div className="card bg-base-100 shadow-lg">
               <div className="card-body">
                 <h2 className="card-title text-2xl mb-4">Kara erga gababaf</h2>
-                <form className="space-y-4">
+                {submitSuccess && (
+                  <div className="alert alert-success mb-4">
+                    <span>Erga keessan ergadheeraa! Fayyadamaan deebiin yaadachi.</span>
+                  </div>
+                )}
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="form-control">
                     <label className="label">
                       <span className="label-text">Maqaa</span>
                     </label>
                     <input
                       type="text"
-                      placeholder="maqaa keessan...."
+                      placeholder="maqaa keessan galchaa...."
                       className="input input-bordered w-full"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
                     />
                   </div>
 
@@ -81,8 +116,11 @@ function ContactPage() {
                     </label>
                     <input
                       type="text"
-                      placeholder="09 11 22 33 44 55"
+                      placeholder="lakkoofsa keessan bilbila galchaa...."
                       className="input input-bordered w-full"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      required
                     />
                   </div>
 
@@ -91,13 +129,16 @@ function ContactPage() {
                       <span className="label-text">Erga</span>
                     </label>
                     <textarea
-                      placeholder="Erga keessan...."
+                      placeholder="Erga keessan galchaa...."
                       className="textarea textarea-bordered w-full h-32"
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      required
                     />
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-full">
-                    Erga Ergi
+                  <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
+                    {isSubmitting ? <span className="loading loading-spinner loading-sm"></span> : "Erga Ergaa"}
                   </button>
                 </form>
               </div>
@@ -110,8 +151,8 @@ function ContactPage() {
                   <div className="flex items-start gap-4">
                     <PhoneIcon className="size-6 text-primary mt-1" />
                     <div>
-                      <h3 className="font-semibold mb-1">Lakkoofsa bilbila</h3>
-                      <p className="text-base-content/70">09 74  65 80 33</p>
+                      <h3 className="font-semibold mb-1">Lakkoofsa bilbila keenya</h3>
+                      <p className="text-base-content/70">09 74  65 80 33 / 09 54 20 08 29</p>
                     </div>
                   </div>
                 </div>
@@ -155,7 +196,7 @@ function ContactPage() {
                       <h3 className="font-semibold mb-1">Iddon argama keenya</h3>
                         <p className="text-base-content/70 text-sm leading-relaxed">
                     Maagala Leeman daandii guudda irra<br/>
-                    Naanawa agilgillooti
+                    naanawa agilgillooti cinati argamna.
                   </p>   
                     </div>
                   </div>

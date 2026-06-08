@@ -11,6 +11,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
 import { sql } from "./config/db.js";
 import { aj } from "./lib/arcjet.js";
 import { attachCurrentUser } from "./middleware/authMiddleware.js";
@@ -86,6 +87,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/messages", messageRoutes);
 
 async function seedAdmin() {
   const adminName = process.env.ADMIN_NAME || "System Admin";

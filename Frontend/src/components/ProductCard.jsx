@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
 import { useState } from "react";
+import { LABELS } from "../constants/labels";
 
 function ProductCard({ product, isAdmin = true, onOrderClick, priority = false }) {
   const { deleteProduct } = useProductStore();
@@ -108,7 +109,7 @@ function ProductCard({ product, isAdmin = true, onOrderClick, priority = false }
                 className="btn btn-sm btn-primary w-full gap-2 shadow-xl"
               >
                 <EyeIcon className="size-4" />
-                View Details
+                {LABELS.viewDetails}
               </Link>
               {!isAdmin && (
                 <button
@@ -117,7 +118,7 @@ function ProductCard({ product, isAdmin = true, onOrderClick, priority = false }
                   className="btn btn-sm btn-secondary w-full gap-2 shadow-xl"
                 >
                   <CreditCardIcon className="size-4" />
-                  Order Now
+                  {LABELS.order}
                 </button>
               )}
             </div>
@@ -166,7 +167,7 @@ function ProductCard({ product, isAdmin = true, onOrderClick, priority = false }
                 className="btn btn-sm btn-outline flex-1 gap-1 lg:hidden"
               >
                 <EyeIcon className="size-4" />
-                <span className="hidden sm:inline">View</span>
+                <span className="hidden sm:inline">{LABELS.viewDetails}</span>
               </Link>
               <button
                 type="button"
@@ -174,7 +175,7 @@ function ProductCard({ product, isAdmin = true, onOrderClick, priority = false }
                 className="btn btn-sm btn-primary flex-1 gap-2"
               >
                 <ShoppingCartIcon className="size-4" />
-                Order
+                {LABELS.order}
               </button>
             </>
           )}

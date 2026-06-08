@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BellIcon, CheckCheckIcon } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useNotificationStore } from "../store/useNotificationStore";
+import { LABELS } from "../constants/labels";
 
 function NotificationBell() {
   const user = useAuthStore((state) => state.user);
@@ -47,7 +48,7 @@ function NotificationBell() {
           />
           <div className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-base-100 rounded-box shadow-xl border border-base-300 overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 border-b border-base-300 bg-base-200">
-              <span className="font-semibold text-sm">Notifications</span>
+              <span className="font-semibold text-sm">{LABELS.notifications}</span>
               {unreadCount > 0 && (
                 <button
                   type="button"
@@ -55,14 +56,14 @@ function NotificationBell() {
                   onClick={markAllRead}
                 >
                   <CheckCheckIcon className="size-3" />
-                  Mark all read
+                  {LABELS.markAllRead}
                 </button>
               )}
             </div>
             <ul className="max-h-72 overflow-y-auto">
               {notifications.length === 0 ? (
                 <li className="px-4 py-6 text-center text-sm text-base-content/60">
-                  No notifications yet
+                  {LABELS.noNotifications}
                 </li>
               ) : (
                 notifications.map((notification) => (

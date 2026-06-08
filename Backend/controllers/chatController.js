@@ -22,6 +22,50 @@ const getOrCreateConversation = async (customerId) => {
   return created[0];
 };
 
+export const openConversation = async (req, res) => {
+  const { customerId } = req.body;
+
+  if (!customerId) {
+    return res.status(400).json({ success: false, message: "Customer is required" });
+  }
+
+  try {
+    if (req.currentUser.role === "admin") {
+      const customers = await sql`
+        SELECT id, full_name, phone_number
+        FROM users
+        WHERE id = ${customerId} AND role = 'customer'
+        LIMIT 1
+      `;
+
+      if (customers.length === 0) {
+        return res.status(404).json({ success: false, message: "Customer not found" });
+      }
+
+      const conversation = await getOrCreateConversation(customerId);
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          ...conversation,
+          customer_name: customers[0].full_name,
+          customer_phone: customers[0].phone_number,
+        },
+      });
+    }
+
+    if (req.currentUser.role === "customer" && req.currentUser.id === Number(customerId)) {
+      const conversation = await getOrCreateConversation(req.currentUser.id);
+      return res.status(200).json({ success: true, data: conversation });
+    }
+
+    return res.status(403).json({ success: false, message: "Access denied" });
+  } catch (error) {
+    console.log("Error in openConversation", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 export const getConversations = async (req, res) => {
   try {
     if (req.currentUser.role === "admin") {
@@ -158,7 +202,7 @@ export const sendMessage = async (req, res) => {
       await createNotification({
         userId: conversation.customer_id,
         type: "new_message",
-        title: `New message from ${senderName}`,
+        title: `Ergaa haaraa: ${senderName}`,
         body: body.trim().slice(0, 120),
         orderId: orderId || null,
       });
@@ -166,7 +210,7 @@ export const sendMessage = async (req, res) => {
       const { notifyAdmins } = await import("../lib/notificationHelper.js");
       await notifyAdmins({
         type: "new_message",
-        title: `Message from ${senderName}`,
+        title: `Ergaa haaraa: ${senderName}`,
         body: body.trim().slice(0, 120),
         orderId: orderId || null,
       });

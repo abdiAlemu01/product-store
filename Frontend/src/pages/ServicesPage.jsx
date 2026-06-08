@@ -23,7 +23,7 @@ function ServicesPage() {
     {
       icon: PackageSearchIcon,
       title: "Ajaja keessan to'achu",
-      description:"Haala mijaata maamiltoni keenya bakka jiran ta'ani ajaja isaani to'achu akka danda'an waan haala mijeesineef bakkuma jirtan teesani ajaja keessan to'achu fi hordofu dandeesu",
+      description:"Haala mijaata maamiltoni keenya bakka jiran ta'ani ajaja isaani to'achu akka danda'an waan haala mijeesineef bakkuma jirtan teesani ajaja keessan to'achu fi hordofu dandeesu.",
       features: [
         // "Real-time status updates",
         // "SMS and email notifications",
@@ -34,7 +34,7 @@ function ServicesPage() {
     {
       icon: HeadphonesIcon,
       title: "Maamiltoota gargaaru",
-      description:"Mani daldala meeshalee mana charu maamiltoota isaa guyyaa guutu kallati maraan kan gargaaru fi gargaaru irrati kan argamuudha",
+      description:"Mani daldala meeshalee mana charu maamiltoota isaa guyyaa guutu kallati maraan kan gargaaru fi gargaaru irrati kan argamuudha.",
       features: [
         "Taajajila guuyya guutu ni kenina",
         "Kaaralee qunaamti garagara qabna", 
@@ -56,7 +56,7 @@ function ServicesPage() {
     {
       icon: UsersIcon,
       title: "Dhiyeesi meeshalee Afoosha",
-      description: "Mani daldala mana charu Meeshalee guutuu qulqulina isaani eegatan gatii madalawaadhan Afooshalee hawaasa magaala keenya fi naanawa ishee jiraatanif kennu irrati ergamna. Kanaaf haaja mijata kanneen armaan gadi uumne ",
+      description: "Mani daldala meeshalee mana charu Meeshalee guutuu qulqulina isaani eegatan gatii madalawaadhan Afooshalee hawaasa magaala keenya fi naanawa ishee jiraatanif kennu irrati ergamna. Kanaaf haala mijata kanneen armaan gadi uumne ",
       features: [
         "Qooqodani kafalti rawaachuu",
         "Dhiyeesi gatii madalaawa",
@@ -77,7 +77,7 @@ function ServicesPage() {
     {
       icon: TrendingUpIcon,
       title: "Daldaltoota Biroof",
-      description: "Mani daldala meeshalee keenya daldaltootaf meeshalee mana fi kanneen biro gati madalaawadhan dhiyeesu irrati kan argamuudha.",
+      description: "Mani daldala meeshalee keenya daldaaltootaf meeshalee mana fi kanneen biro gati madalaawadhan dhiyeesu irrati kan argamuudha.",
       features: [
         // "Competitive commission rates",
         // "Marketing and promotional support",
@@ -90,7 +90,7 @@ function ServicesPage() {
     {
       icon: CreditCardIcon,
       title: "Kafalti qoqoodinsa ",
-      description: "Feedhi maamitoota dursa kan godhaate hojatu mani daldala meeshalee mana keenya maamiltootni kafalti isaani qoqoodani akka kafalanif haala mijata uume jira. ",
+      description: "Feedhi maamitoota dursa kan godhaate hojatu mani daldala meeshalee mana keenya maamiltootni kafalti isaani qoqoodani akka kafalanif haala mijata uume jira. kafalti guutuu erga rawantani booda meesha akka fudhaatan haala mijata uume jira. ",
       features: [
         // "0% interest available",
         // "Flexible payment terms",
@@ -114,9 +114,9 @@ function ServicesPage() {
     <div className="container mx-auto px-4 py-16">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Tajajila Keenya</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">Tajaajila Keenya</h1>
         <p className="text-lg text-base-content/70">
-               Mani daldala meeshalee mana charu tajajila cima mijata hundagaleessa maamiltoota keenya maraaf kenurati kan argamuudha.
+               Mani daldala meeshalee mana charu tajajila cima mijata hundagaleessa maamiltoota keenya maraaf kenurati kan argamuudha. Kananis hawaasa magaala leemai fi naanawa ishee birati beekamti guddaa kan argatedha. Maaree isinis dhuftani/bakkuma jirtani meeshalee gaha ofi keessanifis ta'ee kennadhaaf nu bira argachuu dandeeesu isinin jedha mani daldala meeshalee mana charu. 
         </p>
       
       </div>

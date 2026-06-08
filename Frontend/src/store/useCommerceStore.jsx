@@ -10,9 +10,11 @@ export const useCommerceStore = create((set) => ({
   adminOrders: [],
   customerLookup: null,
   allCustomers: [],
+  contactMessages: [],
   loadingOrders: false,
   loadingLookup: false,
   loadingCustomers: false,
+  loadingMessages: false,
   creatingPromotion: false,
   placingOrder: false,
   deletingOrder: false,
@@ -52,7 +54,7 @@ export const useCommerceStore = create((set) => ({
         adminOrders: [response.data.data, ...state.adminOrders],
       }));
 
-      toast.success("Order placed successfully");
+      toast.success("Ajajni kee milkaa'inaan ergameera");
       return response.data.data;
     } catch (error) {
       const message = error.response?.data?.message || "Unable to place order";
@@ -81,7 +83,9 @@ export const useCommerceStore = create((set) => ({
         adminOrders: state.adminOrders.map(updateOrder),
       }));
 
-      toast.success(`Order ${status.toLowerCase()}`);
+      toast.success(
+        status === "Accepted" ? "Ajajni fudhatameera" : "Ajajni didameera"
+      );
       return response.data.data;
     } catch (error) {
       const message = error.response?.data?.message || "Unable to update order";
@@ -184,7 +188,7 @@ export const useCommerceStore = create((set) => ({
         adminOrders: state.adminOrders.filter((order) => order.id !== orderId),
       }));
 
-      toast.success("Order deleted successfully");
+      toast.success("Ajajni baleeffameera");
       return response.data.data;
     } catch (error) {
       const message = error.response?.data?.message || "Unable to delete order";
@@ -192,6 +196,43 @@ export const useCommerceStore = create((set) => ({
       throw error;
     } finally {
       set({ deletingOrder: false });
+    }
+  },
+
+  fetchContactMessages: async () => {
+    set({ loadingMessages: true });
+
+    try {
+      const response = await axios.get(`${BASE_URL}/api/messages`, {
+        headers: getAuthHeaders(),
+      });
+
+      set({ contactMessages: response.data.data });
+      return response.data.data;
+    } catch (error) {
+      const message = error.response?.data?.message || "Unable to fetch messages";
+      toast.error(message);
+      throw error;
+    } finally {
+      set({ loadingMessages: false });
+    }
+  },
+
+  deleteContactMessage: async (messageId) => {
+    try {
+      await axios.delete(`${BASE_URL}/api/messages/${messageId}`, {
+        headers: getAuthHeaders(),
+      });
+
+      set((state) => ({
+        contactMessages: state.contactMessages.filter((msg) => msg.id !== messageId),
+      }));
+
+      toast.success("Message deleted successfully");
+    } catch (error) {
+      const message = error.response?.data?.message || "Unable to delete message";
+      toast.error(message);
+      throw error;
     }
   },
 }));

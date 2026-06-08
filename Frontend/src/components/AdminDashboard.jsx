@@ -7,17 +7,20 @@ import {
   Trash2Icon,
   UsersIcon,
   ImageOffIcon,
+  MessageCircleIcon,
 } from "lucide-react";
 import { useCommerceStore } from "../store/useCommerceStore";
 import { useNotificationStore } from "../store/useNotificationStore";
-import OrderChat from "./OrderChat";
+import AdminChatPanel from "./AdminChatPanel";
 import OrderStatusBadge from "./OrderStatusBadge";
+import { LABELS } from "../constants/labels";
 import { resolveImageUrl } from "../lib/imageUrl";
 
 function AdminDashboard() {
   const [searchPhone, setSearchPhone] = useState("");
   const [rejectingOrder, setRejectingOrder] = useState(null);
   const [rejectionReason, setRejectionReason] = useState("");
+  const [chatFocus, setChatFocus] = useState({ customerId: null, orderId: null });
   const [promotionForm, setPromotionForm] = useState({
     title: "",
     message: "",
@@ -28,15 +31,19 @@ function AdminDashboard() {
     adminOrders,
     customerLookup,
     allCustomers,
+    contactMessages,
     fetchOrders,
     lookupCustomerByPhone,
     createPromotion,
     fetchAllCustomers,
+    fetchContactMessages,
     deleteOrder,
     updateOrderStatus,
+    deleteContactMessage,
     loadingOrders,
     loadingLookup,
     loadingCustomers,
+    loadingMessages,
     creatingPromotion,
     deletingOrder,
     updatingOrderStatus,
@@ -46,8 +53,9 @@ function AdminDashboard() {
   useEffect(() => {
     fetchOrders();
     fetchAllCustomers();
+    fetchContactMessages();
     fetchNotifications();
-  }, [fetchOrders, fetchAllCustomers, fetchNotifications]);
+  }, [fetchOrders, fetchAllCustomers, fetchContactMessages, fetchNotifications]);
 
   const handleSearchCustomer = async (e) => {
     e.preventDefault();
@@ -306,9 +314,9 @@ function AdminDashboard() {
                 <ShieldCheckIcon className="size-6 text-secondary" />
               </div>
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold">Recent Customer Orders</h2>
+                <h2 className="text-xl sm:text-2xl font-bold">Ajaaja maamiltootaa dhihoo</h2>
                 <p className="text-base-content/60 text-sm">
-                  Track the latest orders placed by customers.
+                  Ajaaja maamiltoonni ergan hunda ilaali, fudhadhu yookin didi.
                 </p>
               </div>
             </div>
@@ -339,7 +347,7 @@ function AdminDashboard() {
                             {order.product_name}
                           </p>
                           {order.is_custom && (
-                            <span className="badge badge-outline badge-xs">Custom</span>
+                            <span className="badge badge-outline badge-xs">{LABELS.customOrder}</span>
                           )}
                         </div>
                         <p className="text-xs sm:text-sm text-base-content/70 truncate">
@@ -351,7 +359,7 @@ function AdminDashboard() {
                         <div className="flex flex-wrap items-center gap-2 pt-1">
                           <OrderStatusBadge status={order.status} />
                           <span className="text-xs text-base-content/60">
-                            Qty: {order.quantity}
+                            {LABELS.quantity}: {order.quantity}
                           </span>
                           <span className="text-xs text-base-content/50">
                             {new Date(order.created_at).toLocaleDateString()}
@@ -370,7 +378,7 @@ function AdminDashboard() {
                               disabled={updatingOrderStatus}
                               onClick={() => handleAcceptOrder(order.id)}
                             >
-                              Accept
+                              {LABELS.accept}
                             </button>
                             <button
                               type="button"
@@ -378,20 +386,35 @@ function AdminDashboard() {
                               disabled={updatingOrderStatus}
                               onClick={() => setRejectingOrder(order)}
                             >
-                              Reject
+                              {LABELS.reject}
                             </button>
                           </div>
                         )}
                       </div>
 
-                      <button
-                        onClick={() => handleDeleteOrder(order.id)}
-                        className="btn btn-sm btn-error btn-ghost shrink-0"
-                        disabled={deletingOrder}
-                        aria-label={`Delete order for ${order.product_name}`}
-                      >
-                        <Trash2Icon className="size-4" />
-                      </button>
+                      <div className="flex flex-col gap-1 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setChatFocus({
+                              customerId: order.customer_id,
+                              orderId: order.id,
+                            })
+                          }
+                          className="btn btn-sm btn-info btn-ghost"
+                          aria-label={`${LABELS.chat} ${order.customer_name}`}
+                        >
+                          <MessageCircleIcon className="size-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteOrder(order.id)}
+                          className="btn btn-sm btn-error btn-ghost"
+                          disabled={deletingOrder}
+                          aria-label={`Delete order for ${order.product_name}`}
+                        >
+                          <Trash2Icon className="size-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -399,27 +422,30 @@ function AdminDashboard() {
             ) : (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <ShoppingBagIcon className="size-12 text-base-content/30 mb-3" />
-                <p className="text-base-content/60">No customer orders yet.</p>
+                <p className="text-base-content/60">Ajaajni maamiltootaa hin jiru.</p>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      <OrderChat />
+      <AdminChatPanel
+        focusCustomerId={chatFocus.customerId}
+        focusOrderId={chatFocus.orderId}
+      />
 
       {rejectingOrder && (
         <div className="modal modal-open">
           <div className="modal-box">
-            <h3 className="font-bold text-lg mb-2">Reject Order</h3>
+            <h3 className="font-bold text-lg mb-2">{LABELS.rejectTitle}</h3>
             <p className="text-sm text-base-content/70 mb-4">
-              Rejecting order for &quot;{rejectingOrder.product_name}&quot; from{" "}
-              {rejectingOrder.customer_name}
+              Ajaja &quot;{rejectingOrder.product_name}&quot; kan{" "}
+              {rejectingOrder.customer_name} diduuf jirta.
             </p>
             <form onSubmit={handleRejectOrder} className="space-y-4">
               <textarea
                 className="textarea textarea-bordered w-full"
-                placeholder="Reason for rejection (required)..."
+                placeholder={`${LABELS.rejectReason} (barbaachisa)...`}
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}
                 required
@@ -434,14 +460,14 @@ function AdminDashboard() {
                     setRejectionReason("");
                   }}
                 >
-                  Cancel
+                  {LABELS.cancel}
                 </button>
                 <button
                   type="submit"
                   className="btn btn-error"
                   disabled={!rejectionReason.trim() || updatingOrderStatus}
                 >
-                  Confirm Reject
+                  {LABELS.reject} {LABELS.confirm}
                 </button>
               </div>
             </form>
@@ -457,6 +483,74 @@ function AdminDashboard() {
           />
         </div>
       )}
+
+      {/* Customer Messages Section */}
+      <div className="card bg-base-100 shadow-lg border border-base-300/60">
+        <div className="card-body">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+              <MessageCircleIcon className="size-6 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold">Erga Maamiltootaa</h2>
+              <p className="text-base-content/60 text-sm">
+                Erga maamiltoonni ergan hunda ilaali.
+              </p>
+            </div>
+          </div>
+
+          {loadingMessages ? (
+            <div className="flex justify-center py-12">
+              <span className="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+          ) : contactMessages.length > 0 ? (
+            <div className="space-y-4 max-h-[32rem] overflow-y-auto pr-1">
+              {contactMessages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className="rounded-2xl border border-base-300 bg-base-100 p-4 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="font-bold text-base">{msg.name}</p>
+                        <span className="badge badge-sm badge-outline">{msg.phone}</span>
+                      </div>
+                      <p className="text-xs text-base-content/60">
+                        {new Date(msg.created_at).toLocaleString('am-ET', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        if (window.confirm("Eergan kun balleessuu barbaadda?")) {
+                          deleteContactMessage(msg.id);
+                        }
+                      }}
+                      className="btn btn-sm btn-ghost btn-error"
+                    >
+                      <Trash2Icon className="size-4" />
+                    </button>
+                  </div>
+                  <div className="bg-base-200 rounded-xl p-3 mt-2">
+                    <p className="text-sm text-base-content">{msg.message}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <MessageCircleIcon className="size-12 text-base-content/30 mb-3" />
+              <p className="text-base-content/60">Erga maamiltootaa hin jiru.</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

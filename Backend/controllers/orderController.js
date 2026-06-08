@@ -68,8 +68,8 @@ export const createOrder = async (req, res) => {
 
       await notifyAdmins({
         type: "order_placed",
-        title: "New custom order",
-        body: `${req.currentUser.full_name} ordered "${customProductName.trim()}" (Qty: ${parsedQuantity})`,
+        title: "Ajaja addaa haaraa",
+        body: `${req.currentUser.full_name} "${customProductName.trim()}" ajaje (Baay'ina: ${parsedQuantity})`,
         orderId: order.id,
       });
 
@@ -122,8 +122,8 @@ export const createOrder = async (req, res) => {
 
     await notifyAdmins({
       type: "order_placed",
-      title: "New order received",
-      body: `${req.currentUser.full_name} ordered "${product.name}" (Qty: ${parsedQuantity})`,
+      title: "Ajaja haaraa argame",
+      body: `${req.currentUser.full_name} "${product.name}" ajaje (Baay'ina: ${parsedQuantity})`,
       orderId: order.id,
     });
 
@@ -273,10 +273,10 @@ export const updateOrderStatus = async (req, res) => {
     await createNotification({
       userId: existing[0].customer_id,
       type: isAccepted ? "order_accepted" : "order_rejected",
-      title: isAccepted ? "Order accepted" : "Order rejected",
+      title: isAccepted ? "Ajajni kee fudhatameera" : "Ajajni kee didameera",
       body: isAccepted
-        ? `Your order for "${productName}" has been accepted.`
-        : `Your order for "${productName}" was rejected: ${rejectionReason.trim()}`,
+        ? `"${productName}" ajajni kee fudhatameera.`
+        : `"${productName}" ajajni kee didameera: ${rejectionReason.trim()}`,
       orderId: Number(id),
     });
 

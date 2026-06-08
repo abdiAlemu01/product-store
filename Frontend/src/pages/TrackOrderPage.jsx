@@ -6,7 +6,6 @@ import {
   UserIcon,
   ImageOffIcon,
   PlusCircleIcon,
-  MessageCircleIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useProductStore } from "../store/useProductStore";
@@ -14,7 +13,6 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useCommerceStore } from "../store/useCommerceStore";
 import { useNotificationStore } from "../store/useNotificationStore";
 import ProductCard from "../components/ProductCard";
-import OrderChat from "../components/OrderChat";
 import OrderStatusBadge from "../components/OrderStatusBadge";
 import { resolveImageUrl } from "../lib/imageUrl";
 
@@ -56,8 +54,6 @@ function TrackOrderPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [orderQuantity, setOrderQuantity] = useState(1);
-  const [chatOrderId, setChatOrderId] = useState(null);
-  const [showChat, setShowChat] = useState(false);
   const [customOrder, setCustomOrder] = useState({
     productName: "",
     quantity: 1,
@@ -130,14 +126,9 @@ function TrackOrderPage() {
   };
 
   const handleDeleteOrder = async (orderId) => {
-    if (window.confirm("Are you sure you want to delete this order?")) {
+    if (window.confirm("ajaja keessan baleesu barbaadani?")) {
       await deleteOrder(orderId);
     }
-  };
-
-  const openChatForOrder = (orderId) => {
-    setChatOrderId(orderId);
-    setShowChat(true);
   };
 
   const isCustomer = user?.role === "customer";
@@ -177,17 +168,15 @@ function TrackOrderPage() {
             <div className="card-body p-4 sm:p-6">
               <h2 className="card-title text-lg sm:text-xl gap-2">
                 <PlusCircleIcon className="size-5 text-primary" />
-                Order a product not on the website
+                Meeshalee suuran isaani fuula weebsiti keenya irra hin jire asin ajajaachu dandeesu.
               </h2>
-              <p className="text-sm text-base-content/70 -mt-1">
-                If the product you want is not listed below, describe it here and we will handle your request.
-              </p>
+              
 
               <form onSubmit={handleCustomOrder} className="mt-4 space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="form-control">
                     <label className="label py-1">
-                      <span className="label-text font-medium">Full Name</span>
+                      <span className="label-text font-medium">Maqaa keessan</span>
                     </label>
                     <input
                       type="text"
@@ -198,7 +187,7 @@ function TrackOrderPage() {
                   </div>
                   <div className="form-control">
                     <label className="label py-1">
-                      <span className="label-text font-medium">Phone Number</span>
+                      <span className="label-text font-medium">Lakkoofsa bilbila keessan</span>
                     </label>
                     <input
                       type="tel"
@@ -212,13 +201,13 @@ function TrackOrderPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-[1fr_120px] gap-4">
                   <div className="form-control">
                     <label className="label py-1">
-                      <span className="label-text font-medium">Product Name</span>
-                      <span className="label-text-alt text-error">Required</span>
+                      <span className="label-text font-medium">Maqaa meesha</span>
+                      <span className="label-text-alt text-error">Req</span>
                     </label>
                     <input
                       type="text"
                       className="input input-bordered w-full"
-                      placeholder="Describe the product you want..."
+                      placeholder="Meeshalee barbaadan ajaajadha..."
                       value={customOrder.productName}
                       onChange={(e) =>
                         setCustomOrder((prev) => ({ ...prev, productName: e.target.value }))
@@ -228,10 +217,10 @@ function TrackOrderPage() {
                   </div>
                   <div className="form-control">
                     <label className="label py-1">
-                      <span className="label-text font-medium">Quantity</span>
+                      <span className="label-text font-medium">Baay'ina meesha</span>
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       min="1"
                       className="input input-bordered w-full"
                       value={customOrder.quantity}
@@ -250,7 +239,7 @@ function TrackOrderPage() {
                   {placingOrder ? (
                     <span className="loading loading-spinner loading-sm" />
                   ) : (
-                    "Submit Custom Order"
+                    "Ajaaja keessan raawadha"
                   )}
                 </button>
               </form>
@@ -264,7 +253,7 @@ function TrackOrderPage() {
               <div className="card-body">
                 <h2 className="card-title text-xl sm:text-2xl">
                   <UserIcon className="size-6 text-primary" />
-                  Galmee Maamiltoota
+                  Galmee Maamiltoota.
                 </h2>
                 <form onSubmit={handleRegister} className="space-y-4 mt-4">
                   <input
@@ -308,7 +297,7 @@ function TrackOrderPage() {
               <div className="card-body">
                 <h2 className="card-title text-xl sm:text-2xl">
                   <PackageSearchIcon className="size-6 text-secondary" />
-                  Seena Lakk.bilbila fi password
+                  Seena Lakk.bilbila fi password keessanin.
                 </h2>
                 <form onSubmit={handleLogin} className="space-y-4 mt-4">
                   <input
@@ -328,7 +317,7 @@ function TrackOrderPage() {
                     required
                   />
                   <button type="submit" className="btn btn-secondary w-full" disabled={authLoading}>
-                    Seena
+                    Seenati ajajadha
                   </button>
                 </form>
               </div>
@@ -342,7 +331,7 @@ function TrackOrderPage() {
               <div className="card bg-base-100 shadow-lg border border-base-300/60">
                 <div className="card-body p-4 sm:p-6">
                   <div className="flex items-center justify-between gap-3">
-                    <h2 className="card-title text-xl sm:text-2xl">My Orders</h2>
+                    <h2 className="card-title text-xl sm:text-2xl">Ajaaja koo</h2>
                     <div className="badge badge-primary">{orders.length}</div>
                   </div>
 
@@ -371,18 +360,18 @@ function TrackOrderPage() {
                                   {order.product_name}
                                 </p>
                                 {order.is_custom && (
-                                  <span className="badge badge-outline badge-xs">Custom</span>
+                                  <span className="badge badge-outline badge-xs">maamila</span>
                                 )}
                               </div>
                               <p className="text-xs sm:text-sm text-base-content/60 mt-0.5">
-                                Quantity: {order.quantity}
+                                baay'ina isa: {order.quantity}
                               </p>
                               <div className="mt-2">
                                 <OrderStatusBadge status={order.status} />
                               </div>
                               {order.status === "Rejected" && order.rejection_reason && (
                                 <p className="text-xs text-error mt-1 line-clamp-2">
-                                  Reason: {order.rejection_reason}
+                                  sababa: {order.rejection_reason}
                                 </p>
                               )}
                             </div>
@@ -412,7 +401,7 @@ function TrackOrderPage() {
                     </div>
                   ) : (
                     <p className="text-base-content/60 mt-3">
-                      You have not placed any orders yet.
+                      ajaaja meeshalee gootani hin qabdan.
                     </p>
                   )}
                 </div>
@@ -423,37 +412,22 @@ function TrackOrderPage() {
                   <h2 className="card-title text-xl sm:text-2xl">Profile</h2>
                   <div className="space-y-3 mt-2">
                     <div className="rounded-2xl bg-base-200 px-4 py-3">
-                      <p className="text-sm text-base-content/60">Full Name</p>
+                      <p className="text-sm text-base-content/60">maqaa</p>
                       <p className="font-semibold">{user.full_name}</p>
                     </div>
                     <div className="rounded-2xl bg-base-200 px-4 py-3">
-                      <p className="text-sm text-base-content/60">Phone</p>
+                      <p className="text-sm text-base-content/60">Lakkoofsa bilbila</p>
                       <p className="font-semibold">{user.phone_number}</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className={showChat ? "block" : "hidden xl:block"}>
-              <OrderChat orderId={chatOrderId} />
-            </div>
           </div>
         )}
 
-        {isCustomer && !showChat && (
-          <button
-            type="button"
-            className="btn btn-primary btn-circle fixed bottom-6 right-6 z-40 shadow-xl xl:hidden"
-            onClick={() => setShowChat(true)}
-            aria-label="Open chat"
-          >
-            <MessageCircleIcon className="size-6" />
-          </button>
-        )}
-
         <div>
-          <h2 className="text-lg sm:text-xl font-bold mb-4">Products on our website</h2>
+          <h2 className="text-lg sm:text-xl font-bold mb-4">Meeshalee mana daldala meeshalee mana charu isin ilaalu dandeesu.</h2>
           {loading ? (
             <div className="flex justify-center py-16 bg-base-100 rounded-3xl shadow-lg border border-base-300/60">
               <span className="loading loading-spinner loading-lg text-primary" />
@@ -471,7 +445,7 @@ function TrackOrderPage() {
             </div>
           ) : (
             <div className="text-center py-12 bg-base-100 rounded-box border-2 border-dashed border-base-300">
-              <p className="text-base-content/50">No products found matching your search.</p>
+              <p className="text-base-content/50">inteneti kee mirkaneefadhu.</p>
             </div>
           )}
         </div>
@@ -479,7 +453,7 @@ function TrackOrderPage() {
         {selectedProduct && (
           <div className="modal modal-open">
             <div className="modal-box max-w-lg">
-              <h3 className="font-bold text-xl sm:text-2xl mb-2">Complete Your Order</h3>
+              <h3 className="font-bold text-xl sm:text-2xl mb-2">Ajajni kee xumurameera</h3>
 
               <div className="flex items-center gap-4 p-4 bg-base-200 rounded-xl mb-6">
                 <div className="size-20 sm:size-24 shrink-0 rounded-xl overflow-hidden bg-base-100 border border-base-300 flex items-center justify-center">
@@ -494,7 +468,7 @@ function TrackOrderPage() {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-base-content/60 uppercase tracking-wide">Product</p>
+                  <p className="text-xs text-base-content/60 uppercase tracking-wide">Meesha</p>
                   <p className="font-bold text-base sm:text-lg line-clamp-2">{selectedProduct.name}</p>
                 </div>
               </div>
@@ -502,7 +476,7 @@ function TrackOrderPage() {
               <form onSubmit={handleSubmitOrder} className="space-y-4">
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-medium">Product Name</span>
+                    <span className="label-text font-medium">maqaa meesha</span>
                   </label>
                   <input
                     type="text"
@@ -514,7 +488,7 @@ function TrackOrderPage() {
 
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-medium">Full Name</span>
+                    <span className="label-text font-medium"> maqaa</span>
                   </label>
                   <input
                     type="text"
@@ -526,7 +500,7 @@ function TrackOrderPage() {
 
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-medium">Phone Number</span>
+                    <span className="label-text font-medium">Lakkoofsa bilbila</span>
                   </label>
                   <input
                     type="tel"
@@ -538,7 +512,7 @@ function TrackOrderPage() {
 
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-medium">Quantity</span>
+                    <span className="label-text font-medium">Baay'ina</span>
                   </label>
                   <input
                     type="number"
@@ -552,14 +526,14 @@ function TrackOrderPage() {
 
                 <div className="modal-action">
                   <button type="button" className="btn btn-ghost" onClick={closeOrderForm}>
-                    Cancel
+                    baleesa
                   </button>
                   <button
                     type="submit"
                     className="btn btn-primary"
                     disabled={!isCustomer || placingOrder}
                   >
-                    Confirm Order
+                    ajaja keesan mirkaneesa
                   </button>
                 </div>
               </form>

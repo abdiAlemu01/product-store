@@ -6,6 +6,7 @@ import {
   getStoredUser,
   setStoredUser,
 } from "../lib/session";
+import { useChatStore } from "./useChatStore";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -24,9 +25,10 @@ export const useAuthStore = create((set) => ({
       });
 
       const user = response.data.data;
+      useChatStore.getState().resetChat();
       setStoredUser(user);
       set({ user });
-      toast.success("Customer account created successfully");
+      toast.success("Akkaawuntii maamilaa milkaa'inaan uumame");
       return user;
     } catch (error) {
       const message = error.response?.data?.message || "Unable to register customer";
@@ -47,9 +49,10 @@ export const useAuthStore = create((set) => ({
       });
 
       const user = response.data.data;
+      useChatStore.getState().resetChat();
       setStoredUser(user);
       set({ user });
-      toast.success(`Welcome back, ${user.full_name}`);
+      toast.success(`Baga nagaan dhufte, ${user.full_name}`);
       return user;
     } catch (error) {
       const message = error.response?.data?.message || "Unable to sign in";
@@ -62,7 +65,8 @@ export const useAuthStore = create((set) => ({
 
   logout: () => {
     clearStoredUser();
+    useChatStore.getState().resetChat();
     set({ user: null });
-    toast.success("Signed out successfully");
+    toast.success("Milkaa'inaan ba'ame");
   },
 }));
